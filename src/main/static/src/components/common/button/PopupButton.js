@@ -34,7 +34,7 @@ class PopupButton extends React.Component<Props, State> {
     };
 
     render(): Node {
-        const wrapperStyle = { position: this.props.popupButtonWrapperPositioning ? this.props.popupButtonWrapperPositioning : 'relative' };
+        const wrapperStyle = this.props.popupButtonWrapperPositioning ? {position: this.props.popupButtonWrapperPositioning} : {};
         const popupButtonClasses = this.props.popupButtonClasses ? this.props.popupButtonClasses : 'oph-button oph-button-primary';
         return (
             <div style={wrapperStyle} className="popup-button">

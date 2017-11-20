@@ -114,14 +114,14 @@ class HenkiloViewOpenKayttooikeusanomus extends React.Component {
 
     createSelitePopupButton(perustelut) {
         return <PopupButton
-            popupClass={'oph-popup-default oph-popup-bottom '}
+            popupClass={'oph-popup-default oph-popup-bottom'}
             popupButtonWrapperPositioning={'absolute'}
             popupArrowStyles={{marginLeft: '10px'}}
             popupButtonClasses={'oph-button oph-button-ghost'}
             popupStyle={{left: '-20px', width: '20rem', padding: '30px', position: 'absolute'}}
             simple={true}
             disabled={!perustelut}
-            popupContent={<p style={{wordBreak: 'break-word'}}>{perustelut}</p>}>{this.L['AVAA']}</PopupButton>
+            popupContent={<p>{perustelut}</p>}>{this.L['AVAA']}</PopupButton>
     }
 
     anomusHandlingButtonsForOmattiedot (haettuKayttooikeusRyhma, idx) {
@@ -144,11 +144,10 @@ class HenkiloViewOpenKayttooikeusanomus extends React.Component {
             </div>
             <div style={{display: 'table-cell'}}>
                 <PopupButton popupClass={'oph-popup-default oph-popup-bottom'}
-                             popupButtonWrapperPositioning={'absolute'}
                              popupTitle={<span className="oph-h3 oph-strong">{this.L['HENKILO_KAYTTOOIKEUSANOMUS_HYLKAA_HAKEMUS']}</span>}
                              popupArrowStyles={{marginLeft: '230px'}}
                              popupButtonClasses={'oph-button oph-button-cancel'}
-                             popupStyle={{left: '-233px', width: '20rem', padding: '30px', position: 'absolute'}}
+                             popupStyle={{right: '0px', width: '20rem', padding: '30px', position: 'absolute'}}
                              popupContent={<AnomusHylkaysPopup L={this.L}
                                                                kayttooikeusryhmaId={haettuKayttooikeusRyhma.id}
                                                                index={idx}
