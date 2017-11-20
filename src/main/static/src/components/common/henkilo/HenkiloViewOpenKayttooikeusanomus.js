@@ -95,7 +95,7 @@ class HenkiloViewOpenKayttooikeusanomus extends React.Component {
                 + ' ' + StaticUtils.getOrganisaatiotyypitFlat(this.props.organisaatioCache[haettuKayttooikeusRyhma.anomus.organisaatioOid].tyypit, this.L),
                 [headingList[3]]: toLocalizedText(this.props.locale, haettuKayttooikeusRyhma.kayttoOikeusRyhma.description,
                     haettuKayttooikeusRyhma.kayttoOikeusRyhma.name),
-                [headingList[4]]: this.createSelitePopupButton(haettuKayttooikeusRyhma.anomus),
+                [headingList[4]]: this.createSelitePopupButton(haettuKayttooikeusRyhma.anomus.perustelut),
                 [headingList[5]]: <span>{this.state.dates[idx].alkupvm.format()}</span>,
                 [headingList[6]]: !this.props.isOmattiedot
                     ? <DatePicker className="oph-input"
@@ -112,7 +112,7 @@ class HenkiloViewOpenKayttooikeusanomus extends React.Component {
             }));
     };
 
-    createSelitePopupButton(anomus) {
+    createSelitePopupButton(perustelut) {
         return <PopupButton
             popupClass={'oph-popup-default oph-popup-bottom '}
             popupButtonWrapperPositioning={'absolute'}
@@ -120,7 +120,8 @@ class HenkiloViewOpenKayttooikeusanomus extends React.Component {
             popupButtonClasses={'oph-button oph-button-ghost'}
             popupStyle={{left: '-20px', width: '20rem', padding: '30px', position: 'absolute'}}
             simple={true}
-            popupContent={<p style={{wordBreak: 'break-word'}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>}>{this.L['AVAA']}</PopupButton>
+            disabled={!perustelut}
+            popupContent={<p style={{wordBreak: 'break-word'}}>{perustelut}</p>}>{this.L['AVAA']}</PopupButton>
     }
 
     anomusHandlingButtonsForOmattiedot (haettuKayttooikeusRyhma, idx) {
@@ -153,8 +154,7 @@ class HenkiloViewOpenKayttooikeusanomus extends React.Component {
                                                                index={idx}
                                                                henkilo={henkilo}
                                                                action={this.updateHaettuKayttooikeusryhma}>
-                             </AnomusHylkaysPopup>}
-                            >
+                             </AnomusHylkaysPopup>}>
                     {this.L['HENKILO_KAYTTOOIKEUSANOMUS_HYLKAA']}
                 </PopupButton>
             </div>
