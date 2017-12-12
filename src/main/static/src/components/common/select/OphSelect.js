@@ -3,10 +3,10 @@ import 'react-virtualized/styles.css';
 import 'react-virtualized-select/styles.css';
 import './OphSelect.css';
 import React from 'react';
-import Select from 'react-virtualized-select';
+import VirtualizedSelect from 'react-virtualized-select';
 
 const OphSelect = (props) => {
-    return <Select clearable={false} deleteRemoves={false} {...props} />;
+    return <VirtualizedSelect clearable={false} deleteRemoves={false} maxHeight={200} {...props} />;
 };
 
 export default OphSelect;
