@@ -67,7 +67,7 @@ class HaetutKayttooikeusRyhmatHakuForm extends React.Component<Props, State> {
         return (
             <form>
                 <div className="flex-horizontal flex-align-center">
-                    <div className="flex-item-1 haetut-kayttooikeusryhmat-form-item" style={{minWidth: '200px', maxWidth: '300px'}}>
+                    <div id="kayttooikeusryhmaHenkiloHakuWrapper" className="flex-item-1 haetut-kayttooikeusryhmat-form-item">
                         <DelayedSearchInput setSearchQueryAction={this.onHakutermiChange.bind(this)}
                                             defaultNameQuery={this.state.searchTerm}
                                             placeholder={this.props.L['HAETTU_KAYTTOOIKEUSRYHMA_HAKU_HENKILO']}
@@ -88,7 +88,7 @@ class HaetutKayttooikeusRyhmatHakuForm extends React.Component<Props, State> {
                         </span>
                     </div>
                 </div>
-                <div className="flex-horizontal flex-align-center" style={{marginTop: '5px'}}>
+                <div className="flex-horizontal flex-align-center margin-top-5">
                     {this.props.isAdmin || this.props.isOphVirkailija ?
                         <div className="flex-item-1 haetut-kayttooikeusryhmat-form-item flex-inline large-kayttooikeus-filter">
                             <span className="flex-item-1">
@@ -111,7 +111,7 @@ class HaetutKayttooikeusRyhmatHakuForm extends React.Component<Props, State> {
                         : null}
 
                     {this.props.isAdmin &&
-                    <div className="haetut-kayttooikeusryhmat-form-item" style={{width: '250px', marginLeft: '23px'}}>
+                    <div id="kayttooikeusryhmaRadioButtonWrapper" className="haetut-kayttooikeusryhmat-form-item">
                         <BooleanRadioButtonGroup value={this.state.naytaKaikki}
                                                  onChange={this.onNaytaKaikkiChange}
                                                  trueLabel={this.props.L['HAETTU_KAYTTOOIKEUSRYHMA_HAKU_NAYTA_KAIKKI']}

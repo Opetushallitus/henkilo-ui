@@ -16,3 +16,17 @@
     min-width: 400px;
     max-width: 800px;
 }
+
+.margin-top-5 {
+    margin-top: 5px;
+}
+
+#kayttooikeusryhmaHakuHenkiloWrapper {
+    min-width: 200px;
+    max-width: 300px;
+}
+
+#kayttooikeusryhmaRadioButtonWrapper {
+    width: 250px;
+    margin-left: 23px;
+}
