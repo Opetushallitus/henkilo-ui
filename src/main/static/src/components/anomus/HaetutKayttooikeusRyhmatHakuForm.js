@@ -100,7 +100,7 @@ class HaetutKayttooikeusRyhmatHakuForm extends React.Component<Props, State> {
                                            maxHeight={400}
                                            optionHeight={(object) => {
                                                const length = object.option.label.length;
-                                               return 25 + ((length/50) * 15);
+                                               return 25 + ((length/50) * 20);
                                            }}>
                                 </OphSelect>
                             </span>
