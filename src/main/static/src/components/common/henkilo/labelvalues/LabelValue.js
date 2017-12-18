@@ -10,10 +10,12 @@ const LabelValue = ({values, readOnly, updateModelFieldAction, updateDateFieldAc
             {!hideLabel ? <span className="oph-bold">{L[values.label] + (required ? ' *' : '')}</span> : <span>&nbsp;</span>}
             <Field {...values}
                    autofocus={autofocus}
+                   disabled={values.disabled}
                    changeAction={!values.date
                        ? updateModelFieldAction
                        : updateDateFieldAction}
-                   readOnly={values.readOnly || readOnly}>
+                   readOnly={values.readOnly || readOnly}
+            >
                 {values.value}
             </Field>
         </Columns>
@@ -32,6 +34,7 @@ LabelValue.propTypes = {
     updateDateFieldAction: PropTypes.func,
     autofocus: PropTypes.bool,
     hideLabel: PropTypes.bool,
+    disabled: PropTypes.bool
 };
 
 const mapStateToProps = (state, ownProps) => ({

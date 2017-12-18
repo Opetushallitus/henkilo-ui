@@ -2,5 +2,7 @@
 
 export type ReactSelectOption = {
     label: string,
-    value: string
+    value: string,
+    optionsName?: string,
+    optionsPath?: string,
 }

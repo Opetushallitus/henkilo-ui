@@ -9,6 +9,8 @@ import WideRedNotification from "../common/notifications/WideRedNotification";
 import StaticUtils from "../common/StaticUtils";
 import Loader from "../common/icons/Loader";
 import * as R from 'ramda';
+import { Link } from 'react-router';
+import { toLocalizedText } from '../../localizabletext';
 
 class HenkilohakuPage extends React.Component {
     static propTypes = {
@@ -42,10 +44,6 @@ class HenkilohakuPage extends React.Component {
         this.L = this.props.l10n[this.props.locale];
         this.initialised = false;
         this.headingTemplate = [
-            {
-                key: 'HENKILOHAKU_OIDHENKILO_HIDDEN',
-                hide: true,
-            },
             {
                 key: 'HENKILO_NIMI',
                 maxWidth: 400,
@@ -138,13 +136,6 @@ class HenkilohakuPage extends React.Component {
                                noDataText=""
                                striped
                                highlight
-                               getTdProps={(state, rowInfo, column, instance) => {
-                                   return {
-                                       onClick: e => this.props.router.push('/virkailija/' +
-                                           rowInfo.row['HENKILOHAKU_OIDHENKILO_HIDDEN']),
-                                       style: {cursor: "pointer"}
-                                   }
-                               }}
                                manual
                                defaultSorted={this.state.sorted}
                                onFetchData={this.onTableFetch.bind(this)}
@@ -182,11 +173,10 @@ class HenkilohakuPage extends React.Component {
 
     createRows(headingKeys) {
         return this.props.henkilohakuResult.map((henkilo, idx) => ({
-            [headingKeys[0]]: henkilo.oidHenkilo || '',
-            [headingKeys[1]]: <span className="oph-blue-lighten-1">{henkilo.nimi || ''}</span>,
-            [headingKeys[2]]: henkilo.kayttajatunnus || '',
-            [headingKeys[3]]: <ul>{henkilo.organisaatioNimiList.map((organisaatio, idx2) =>
-                <li key={idx2}>{(organisaatio.localisedLabels[this.props.locale] || organisaatio.identifier)
+            [headingKeys[0]]: <Link to={`/virkailija/${henkilo.oidHenkilo}`}>{henkilo.nimi || ''}</Link>,
+            [headingKeys[1]]: henkilo.kayttajatunnus || '',
+            [headingKeys[2]]: <ul>{henkilo.organisaatioNimiList.map((organisaatio, idx2) =>
+                <li key={idx2}>{(toLocalizedText(this.props.locale, organisaatio.localisedLabels) || organisaatio.identifier)
                 + ' ' + StaticUtils.getOrganisaatiotyypitFlat(organisaatio.tyypit, this.L, true)}</li>)}</ul>,
         }));
     };

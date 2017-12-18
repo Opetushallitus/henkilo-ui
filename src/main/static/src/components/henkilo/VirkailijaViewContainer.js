@@ -12,6 +12,7 @@ import {henkiloViewTabs} from "../navigation/NavigationTabs";
 import {
     fetchAllKayttooikeusAnomusForHenkilo,
     fetchAllKayttooikeusryhmasForHenkilo, getGrantablePrivileges,
+    updateHaettuKayttooikeusryhma,
 } from "../../actions/kayttooikeusryhma.actions";
 import {fetchOmattiedotOrganisaatios} from "../../actions/omattiedot.actions";
 
@@ -19,10 +20,10 @@ class VirkailijaViewContainer extends React.Component {
     componentDidMount() {
         this.props.clearHenkilo();
         if (this.props.oidHenkilo === this.props.ownOid) {
-            this.props.router.push('/omattiedot');
+            this.props.router.replace('/omattiedot');
         }
-        if (this.props.isAdmin) {
-            this.props.router.push('/admin/' + this.props.oidHenkilo);
+        else if (this.props.isAdmin) {
+            this.props.router.replace(`/admin/${this.props.oidHenkilo}`);
         }
         else {
             const tabs = henkiloViewTabs(this.props.oidHenkilo, this.props.henkilo, 'virkailija');
@@ -85,6 +86,7 @@ export default connect(mapStateToProps, {
     updateHenkiloNavigation,
     fetchAllKayttooikeusryhmasForHenkilo,
     fetchAllKayttooikeusAnomusForHenkilo,
+    updateHaettuKayttooikeusryhma,
     fetchOmattiedotOrganisaatios,
     getGrantablePrivileges,
     clearHenkilo})(VirkailijaViewContainer);

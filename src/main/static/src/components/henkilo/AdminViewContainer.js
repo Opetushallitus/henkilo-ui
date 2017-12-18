@@ -11,6 +11,7 @@ import {henkiloViewTabs} from "../navigation/NavigationTabs";
 import {
     fetchAllKayttooikeusAnomusForHenkilo,
     fetchAllKayttooikeusryhmasForHenkilo,
+    updateHaettuKayttooikeusryhma,
 } from "../../actions/kayttooikeusryhma.actions";
 import {fetchOmattiedotOrganisaatios} from "../../actions/omattiedot.actions";
 import HenkiloViewPage from "./HenkiloViewPage";
@@ -19,7 +20,7 @@ class AdminViewContainer extends React.Component {
     componentDidMount() {
         this.props.clearHenkilo();
         if (this.props.oidHenkilo === this.props.ownOid) {
-            this.props.router.push('/omattiedot');
+            this.props.router.replace('/omattiedot');
         }
 
         this.props.fetchHenkilo(this.props.oidHenkilo);
@@ -80,6 +81,7 @@ export default connect(mapStateToProps, {
     updateHenkiloNavigation,
     fetchAllKayttooikeusryhmasForHenkilo,
     fetchAllKayttooikeusAnomusForHenkilo,
+    updateHaettuKayttooikeusryhma,
     fetchOmattiedotOrganisaatios,
     fetchHenkiloSlaves,
     clearHenkilo})(AdminViewContainer);

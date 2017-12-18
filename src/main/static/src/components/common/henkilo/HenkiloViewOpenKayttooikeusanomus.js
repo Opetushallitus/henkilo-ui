@@ -1,18 +1,18 @@
-import './HenkiloViewOpenKayttooikeusanomus.css'
-import React from 'react'
-import PropTypes from 'prop-types'
-import Table from '../table/Table'
-import moment from 'moment'
-import DatePicker from 'react-datepicker'
-import StaticUtils from "../StaticUtils"
-import MyonnaButton from "./buttons/MyonnaButton"
-import Button from "../button/Button"
-import { urls } from "oph-urls-js"
-import { http } from "../../../http"
+import './HenkiloViewOpenKayttooikeusanomus.css';
+import React from 'react';
+import PropTypes from 'prop-types';
+import Table from '../table/Table';
+import moment from 'moment';
+import DatePicker from 'react-datepicker';
+import StaticUtils from '../StaticUtils';
+import MyonnaButton from './buttons/MyonnaButton';
+import Button from '../button/Button';
+import { urls } from 'oph-urls-js';
+import { http } from '../../../http';
 import {toLocalizedText} from '../../../localizabletext'
 import PopupButton from "../button/PopupButton";
-import AnomusHylkaysPopup from "../../anomus/AnomusHylkaysPopup";
-import PropertySingleton from "../../../globals/PropertySingleton";
+import AnomusHylkaysPopup from '../../anomus/AnomusHylkaysPopup';
+import PropertySingleton from '../../../globals/PropertySingleton';
 
 class HenkiloViewOpenKayttooikeusanomus extends React.Component {
     static propTypes = {
@@ -92,7 +92,7 @@ class HenkiloViewOpenKayttooikeusanomus extends React.Component {
             .map((haettuKayttooikeusRyhma, idx) => ({
                 [headingList[0]]: moment(new Date(haettuKayttooikeusRyhma.anomus.anottuPvm)).format(),
                 [headingList[1]]: haettuKayttooikeusRyhma.anomus.henkilo.etunimet + ' ' + haettuKayttooikeusRyhma.anomus.henkilo.sukunimi,
-                [headingList[2]]: this.props.organisaatioCache[haettuKayttooikeusRyhma.anomus.organisaatioOid].nimi[this.props.locale]
+                [headingList[2]]: toLocalizedText(this.props.locale, this.props.organisaatioCache[haettuKayttooikeusRyhma.anomus.organisaatioOid].nimi)
                 + ' ' + StaticUtils.getOrganisaatiotyypitFlat(this.props.organisaatioCache[haettuKayttooikeusRyhma.anomus.organisaatioOid].tyypit, this.L),
                 [headingList[3]]: toLocalizedText(this.props.locale, haettuKayttooikeusRyhma.kayttoOikeusRyhma.description,
                     haettuKayttooikeusRyhma.kayttoOikeusRyhma.name),
