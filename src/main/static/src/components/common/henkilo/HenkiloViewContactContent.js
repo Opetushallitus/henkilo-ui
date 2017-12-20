@@ -42,6 +42,7 @@ type State = {
     showPassive: boolean,
     contactInfo: Array<ContactInfo>,
     yhteystietoRemoveList: Array<number | string>,
+    modified: boolean,
 }
 
 class HenkiloViewContactContent extends React.Component<Props, State> {
@@ -145,7 +146,10 @@ class HenkiloViewContactContent extends React.Component<Props, State> {
                         <Button disabled={passivoitu || duplicate} key="contactEdit" action={this._edit.bind(this)}>{this.props.L['MUOKKAA_LINKKI']}</Button>
                     </div>
                     : <div className="henkiloViewEditButtons">
-                        <EditButtons discardAction={this._discard.bind(this)} updateAction={this._update.bind(this)} L={this.props.L} isValidForm={this.state.modified} />
+                        <EditButtons discardAction={this._discard.bind(this)}
+                                     updateAction={this._update.bind(this)}
+                                     L={this.props.L}
+                                     isValidForm={this.state.modified} />
                     </div>
                 }
             </div>
