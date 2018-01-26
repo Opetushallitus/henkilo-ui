@@ -11,6 +11,7 @@ import Loader from "../common/icons/Loader";
 import * as R from 'ramda';
 import { Link } from 'react-router';
 import { toLocalizedText } from '../../localizabletext';
+import FinnishSSN from 'finnish-ssn';
 
 class HenkilohakuPage extends React.Component {
     static propTypes = {
@@ -66,6 +67,7 @@ class HenkilohakuPage extends React.Component {
                 kayttooikeusryhmaId: undefined,
                 ryhmaOids: undefined,
                 nameQuery: undefined,
+                isHetu: false
             },
             showNoDataMessage: false,
             allFetched: true,
@@ -217,6 +219,7 @@ class HenkilohakuPage extends React.Component {
 
                 // turn organisaatioOids to array
                 const henkiloHakuModel = R.clone(this.state.henkilohakuModel);
+                henkiloHakuModel.isHetu = FinnishSSN.validate(henkiloHakuModel.nameQuery);
                 henkiloHakuModel.organisaatioOids = henkiloHakuModel.organisaatioOids ? [henkiloHakuModel.organisaatioOids] : undefined;
 
                 return this.props.henkilohakuAction(henkiloHakuModel,
