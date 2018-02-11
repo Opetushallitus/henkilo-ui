@@ -106,6 +106,7 @@ class HenkiloViewOpenKayttooikeusanomus extends React.Component {
                                   selected={this.state.dates[idx].loppupvm}
                                   showYearDropdown
                                   showWeekNumbers
+                                  disabled={this.hasNoPermission(haettuKayttooikeusRyhma.anomus.organisaatioOid, haettuKayttooikeusRyhma.kayttoOikeusRyhma.id)}
                                   filterDate={(date) => date.isBefore(moment().add(1, 'years'))} />
                     : this.state.dates[idx].loppupvm.format(),
                 [headingList[7]]: this.L[haettuKayttooikeusRyhma.anomus.anomusTyyppi],
@@ -152,6 +153,7 @@ class HenkiloViewOpenKayttooikeusanomus extends React.Component {
                              popupButtonClasses={'oph-button oph-button-cancel'}
                              popupStyle={{right: '0px', width: '20rem', padding: '30px', position: 'absolute'}}
                              toggle={this.state.showHylkaysPopup}
+                             disabled={noPermission}
                              popupContent={<AnomusHylkaysPopup L={this.L}
                                                                kayttooikeusryhmaId={haettuKayttooikeusRyhma.id}
                                                                index={idx}
@@ -183,9 +185,9 @@ class HenkiloViewOpenKayttooikeusanomus extends React.Component {
         return (
             <div className="henkiloViewUserContentWrapper">
                 <div>
-                    <div className="header">
+                    {!this.props.piilotaOtsikko && <div className="header">
                         <p className="oph-h2 oph-bold">{this.L['HENKILO_AVOIMET_KAYTTOOIKEUDET_OTSIKKO']}</p>
-                    </div>
+                    </div>}
                     <div>
                         <Table headings={this.tableHeadings}
                                data={this._rows}
