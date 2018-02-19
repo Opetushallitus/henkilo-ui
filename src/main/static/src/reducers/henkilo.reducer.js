@@ -71,7 +71,8 @@ const initialState: HenkiloState = {
     yksilointitiedotLoading: false,
     yksilointitiedot: [],
     hakemuksetLoading: false,
-    hakemukset: []
+    hakemukset: [],
+    ataruApplications: []
 };
 
 const mapOrgHenkilosWithOrganisations = (henkiloOrgs, organisations) => {
