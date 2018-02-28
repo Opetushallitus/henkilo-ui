@@ -17,10 +17,12 @@ export default {
     "kayttooikeus-service.renewKutsu": "kayttooikeus-service/kutsu/$1/renew",
     "kayttooikeus-service.kutsu.by-token": "kayttooikeus-service/kutsu/token/$1",
     "kayttooikeus-service.buildversion": "kayttooikeus-service/buildversion.txt",
+    "kayttooikeus-service.henkilo.byOid": "kayttooikeus-service/henkilo/$1",
     "kayttooikeus-service.henkilo.organisaatios": "kayttooikeus-service/henkilo/$1/organisaatio",
     "kayttooikeus-service.henkilo.organisaatiohenkilos": "kayttooikeus-service/henkilo/$1/organisaatiohenkilo",
     "kayttooikeus-service.henkilo.hakatunnus": "kayttooikeus-service/henkilo/$1/hakatunnus",
     "kayttooikeus-service.henkilo.henkilohaku": "kayttooikeus-service/henkilo/henkilohaku",
+    "kayttooikeus-service.henkilo.henkilohakucount": "kayttooikeus-service/henkilo/henkilohakucount",
     "kayttooikeus-service.organisaatiohenkilo.passivoi": "kayttooikeus-service/organisaatiohenkilo/$1/$2",
     "kayttooikeus-service.henkilo.kayttajatieto": "kayttooikeus-service/henkilo/$1/kayttajatiedot",
     "kayttooikeus-service.henkilo.anomus-list": "kayttooikeus-service/kayttooikeusanomus/$1",
@@ -88,6 +90,9 @@ export default {
     "shibboleth.baseUrl": "/",
     "shibboleth.identification": "shibbolethVirkailija/virkailija$1",
     "shibboleth.kayttooikeus-service.cas.tunnistus": "kayttooikeus-service/cas/tunnistus",
+
+    "virkailijan-tyopoyta.baseUrl": "/",
+    "virkailijan-tyopoyta.base": "virkailijan-tyopoyta",
 
     "virkailija-raamit.baseUrl": "/",
     "virkailija-raamit.raamit.js": "virkailija-raamit/apply-raamit.js",
