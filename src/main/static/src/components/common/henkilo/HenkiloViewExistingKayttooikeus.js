@@ -74,7 +74,7 @@ class HenkiloViewExistingKayttooikeus extends React.Component<Props, State> {
     L: L;
     headingList: Array<TableHeading>;
     tableHeadings: Array<TableHeading>;
-    _rows: Array<{}>;
+    _rows: Array<string | number | boolean>;
     updateKayttooikeusryhma: (number, string, number, string) => void;
 
     static propTypes = {
@@ -278,6 +278,7 @@ class HenkiloViewExistingKayttooikeus extends React.Component<Props, State> {
                 <div>
                     <Table headings={this.tableHeadings}
                            data={this._rows}
+                           fetchMoreSettings={}
                            noDataText={this.L['HENKILO_KAYTTOOIKEUS_VOIMASSAOLEVAT_TYHJA']}
                     />
                 </div>
