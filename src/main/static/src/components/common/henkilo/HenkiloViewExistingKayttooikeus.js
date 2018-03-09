@@ -278,7 +278,6 @@ class HenkiloViewExistingKayttooikeus extends React.Component<Props, State> {
                 <div>
                     <Table headings={this.tableHeadings}
                            data={this._rows}
-                           fetchMoreSettings={}
                            noDataText={this.L['HENKILO_KAYTTOOIKEUS_VOIMASSAOLEVAT_TYHJA']}
                     />
                 </div>
