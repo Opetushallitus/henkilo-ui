@@ -23,9 +23,9 @@ type Props = {
     getTdProps?: () => void,
     subComponent?: (any) => React.Node,
     defaultSorted?: Array<any>,
-    fetchMoreSettings: {
-        fetchMoreAction: () => void,
-        isActive: boolean
+    fetchMoreSettings?: {
+        fetchMoreAction?: () => void,
+        isActive?: boolean
     },
     isLoading?: boolean
 };
@@ -76,8 +76,8 @@ class Table extends React.Component<Props> {
                             getTrProps={(state, rowInfo, column) => ({ className: rowInfo.row.HIGHLIGHT ? "fadeOutBackgroundColor" : null })}
                             getTdProps={this.props.getTdProps}
                             onFetchData={this.props.onFetchData} />
-                <VisibilitySensor onChange={(isVisible) => { if(isVisible) {this.props.fetchMoreSettings.fetchMoreAction && this.props.fetchMoreSettings.fetchMoreAction();} }}
-                                  active={this.props.fetchMoreSettings.isActive}
+                <VisibilitySensor onChange={(isVisible) => { if(isVisible) {this.props.fetchMoreSettings && this.props.fetchMoreSettings.fetchMoreAction && this.props.fetchMoreSettings.fetchMoreAction();} }}
+                                  active={this.props.fetchMoreSettings && this.props.fetchMoreSettings.isActive}
                                   resizeDelay={500}
                                   delayedCall
                                   partialVisibility>
