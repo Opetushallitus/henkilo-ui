@@ -180,6 +180,16 @@
                     </execution>
 
                     <execution>
+                        <id>npm run flow</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>run flow</arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution>
                         <id>npm run test</id>
                         <goals>
                             <goal>npm</goal>
@@ -189,16 +199,6 @@
                                 <CI>true</CI>
                             </environmentVariables>
                             <arguments>run test</arguments>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>npm run flow</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>run flow</arguments>
                         </configuration>
                     </execution>
 
