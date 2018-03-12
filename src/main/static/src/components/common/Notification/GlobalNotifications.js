@@ -5,7 +5,7 @@ import './GlobalNotifications.css';
 import type {GlobalNotificationConfig} from "../../../types/notification.types";
 
 type Props = {
-    notificationList: Array<string>,
+    notificationList: Array<GlobalNotificationConfig>,
     removeGlobalNotification: (key: string) => void
 }
 

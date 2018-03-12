@@ -7,16 +7,17 @@ import type {GlobalNotificationConfig} from "../types/notification.types";
 export type NoficationListState = Array<GlobalNotificationConfig>;
 
 type Action = any; // AddAction | RemoveAction
-
+/*
 type AddAction = {
-    type: typeof GLOBAL_NOTIFICATION.ADD,
+    type: string,
     payload: GlobalNotificationConfig
 }
 
 type RemoveAction = {
-    type: typeof GLOBAL_NOTIFICATION.REMOVE,
+    type: string,
     key: string
 }
+*/
 
 export const notificationList = ( state: NoficationListState = [], action: Action): NoficationListState => {
     switch (action.type) {
