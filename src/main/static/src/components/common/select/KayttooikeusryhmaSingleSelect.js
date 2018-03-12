@@ -38,7 +38,6 @@ class KayttooikeusryhmaSingleSelect extends React.Component<Props, State> {
     }
 
     render() {
-        console.log(this.props.kayttooikeusRyhmas);
         return !this.props.kayttooikeusLoading && this.props.kayttooikeusRyhmas && this.props.kayttooikeusRyhmas.length
             ? <OphSelect id="kayttooikeusryhmaFilter"
                          options={this.props.kayttooikeusRyhmas.map(kayttooikeusryhma => ({

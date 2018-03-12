@@ -22,7 +22,7 @@ import type {MyonnettyKayttooikeusryhma} from "../../../types/domain/kayttooikeu
 import * as R from 'ramda';
 import {localize, localizeTextGroup} from "../../../utilities/localisation.util";
 import './HenkiloViewOpenKayttooikeusanomus.css';
-import {TableHeading} from "../../../types/react-table.types";
+import type {TableHeading} from "../../../types/react-table.types";
 
 export type KayttooikeusryhmaData = {
     voimassaPvm: any,
