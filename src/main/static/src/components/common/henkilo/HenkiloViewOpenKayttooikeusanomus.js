@@ -22,15 +22,7 @@ import type {MyonnettyKayttooikeusryhma} from "../../../types/domain/kayttooikeu
 import * as R from 'ramda';
 import {localize, localizeTextGroup} from "../../../utilities/localisation.util";
 import './HenkiloViewOpenKayttooikeusanomus.css';
-
-type Heading = {
-    key: string,
-    label?: string,
-    maxWidth?: number,
-    minWidth?: number,
-    notSortable?: boolean,
-    hide?: boolean
-}
+import type {TableHeading} from "../../../types/react-table.types";
 
 export type KayttooikeusryhmaData = {
     voimassaPvm: any,
@@ -47,7 +39,9 @@ export type AnojaKayttooikeusryhmaData = {
 type State = {
     dates: Array<{alkupvm: any, loppupvm: any}>,
     kayttooikeusRyhmatByAnoja: Array<AnojaKayttooikeusryhmaData>,
-    showHylkaysPopup: boolean
+    showHylkaysPopup: boolean,
+    disabledHylkaaButtons: {[number]: boolean},
+    disabledMyonnettyButtons: {[number]: boolean}
 }
 
 type Props = {
@@ -79,8 +73,8 @@ type Props = {
 class HenkiloViewOpenKayttooikeusanomus extends React.Component<Props, State> {
 
     L: L;
-    headingList: Array<Heading>;
-    tableHeadings: Array<Heading>;
+    headingList: Array<TableHeading>;
+    tableHeadings: Array<TableHeading>;
     _rows: Array<any>;
 
     constructor(props: Props) {
@@ -104,7 +98,10 @@ class HenkiloViewOpenKayttooikeusanomus extends React.Component<Props, State> {
                 alkupvm: moment(),
                 loppupvm: moment().add(1, 'years'),
             })),
-            kayttooikeusRyhmatByAnoja: []
+            kayttooikeusRyhmatByAnoja: [],
+            showHylkaysPopup: false,
+            disabledHylkaaButtons: {},
+            disabledMyonnettyButtons: {}
         };
     };
 
@@ -180,12 +177,13 @@ class HenkiloViewOpenKayttooikeusanomus extends React.Component<Props, State> {
     anomusHandlingButtonsForHenkilo(haettuKayttooikeusRyhma: HaettuKayttooikeusryhma, idx: number) {
         const noPermission = this.hasNoPermission(haettuKayttooikeusRyhma.anomus.organisaatioOid, haettuKayttooikeusRyhma.kayttoOikeusRyhma.id);
         const henkilo =haettuKayttooikeusRyhma.anomus.henkilo;
+
         return <div>
             <div className="anomuslistaus-myonnabutton" style={{display: 'table-cell', paddingRight: '10px'}}>
                 <MyonnaButton myonnaAction={() => this.updateHaettuKayttooikeusryhma(haettuKayttooikeusRyhma.id,
                     'MYONNETTY', idx, henkilo)}
                               L={this.L}
-                              disabled={noPermission} />
+                              disabled={noPermission || this.state.disabledMyonnettyButtons[haettuKayttooikeusRyhma.id]} />
             </div>
             <div style={{display: 'table-cell'}}>
                 <PopupButton popupClass={'oph-popup-default oph-popup-bottom'}
@@ -194,7 +192,7 @@ class HenkiloViewOpenKayttooikeusanomus extends React.Component<Props, State> {
                              popupButtonClasses={'oph-button oph-button-cancel oph-button-small'}
                              popupStyle={{right: '0px', width: '20rem', padding: '30px', position: 'absolute'}}
                              toggle={this.state.showHylkaysPopup}
-                             disabled={noPermission}
+                             disabled={noPermission || this.state.disabledHylkaaButtons[haettuKayttooikeusRyhma.id]}
                              popupContent={<AnomusHylkaysPopup L={this.L}
                                                                kayttooikeusryhmaId={haettuKayttooikeusRyhma.id}
                                                                index={idx}
@@ -215,7 +213,15 @@ class HenkiloViewOpenKayttooikeusanomus extends React.Component<Props, State> {
         if(this.props.updateHaettuKayttooikeusryhma) {
             this.props.updateHaettuKayttooikeusryhma(id, tila, alkupvm, loppupvm, henkilo, hylkaysperuste || '');
         }
-        this.setState({showHylkaysPopup: false});
+        const disabledMyonnettyButtons = {...this.state.disabledMyonnettyButtons};
+        const disabledHylkaaButtons = {...this.state.disabledHylkaaButtons};
+        if(tila === 'MYONNETTY') {
+            disabledMyonnettyButtons[id] = true;
+        }
+        if(tila === 'HYLATTY') {
+            disabledHylkaaButtons[id] = true;
+        }
+        this.setState({showHylkaysPopup: false, disabledMyonnettyButtons, disabledHylkaaButtons});
     };
 
     async cancelAnomus(haettuKayttooikeusRyhma: HaettuKayttooikeusryhma) {
@@ -230,7 +236,7 @@ class HenkiloViewOpenKayttooikeusanomus extends React.Component<Props, State> {
     hasNoPermission(organisaatioOid: string, kayttooikeusryhmaId: number) {
         return !this.props.kayttooikeus.grantableKayttooikeusLoading
             && !(this.props.kayttooikeus.grantableKayttooikeus[organisaatioOid]
-            && this.props.kayttooikeus.grantableKayttooikeus[organisaatioOid].indexOf(kayttooikeusryhmaId) === 0);
+            && this.props.kayttooikeus.grantableKayttooikeus[organisaatioOid].includes(kayttooikeusryhmaId));
     };
     
     fetchKayttooikeusryhmatByAnoja(row: any): React.Node {
@@ -320,7 +326,7 @@ class HenkiloViewOpenKayttooikeusanomus extends React.Component<Props, State> {
                                fetchMoreSettings={this.props.fetchMoreSettings}
                                isLoading={this.props.tableLoading}
                                striped={this.props.striped}
-                               subComponent={this.fetchKayttooikeusryhmatByAnoja.bind(this)}/>
+                               subComponent={this.props.isAnomusView ? this.fetchKayttooikeusryhmatByAnoja.bind(this) : undefined}/>
                     </div>
                 </div>
             </div>

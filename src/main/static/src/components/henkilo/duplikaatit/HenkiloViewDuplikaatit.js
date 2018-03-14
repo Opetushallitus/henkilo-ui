@@ -46,13 +46,14 @@ class HenkiloViewDuplikaatit extends React.Component<Props, State> {
         super(props);
 
         this.state = {
+            notifications: [],
             selectedDuplicates: [],
             yksiloitySelected: this.props.henkilo.henkilo.yksiloity || this.props.henkilo.henkilo.yksiloityVTJ,
         }
     }
 
     render() {
-        const master = this.props.henkilo.henkilo;
+        const master: any = this.props.henkilo.henkilo;
         master.hakemukset = this.props.henkilo.hakemukset;
         const duplicates = this.props.henkilo.duplicates;
         const koodisto = this.props.koodisto;
@@ -90,6 +91,7 @@ class HenkiloViewDuplikaatit extends React.Component<Props, State> {
                     classNames={{'person': true, master: true}}
                     isMaster={true}
                     vainLuku={this.props.vainLuku}
+                    henkiloType={this.props.henkiloType}
                     setSelection={this.setSelection.bind(this)}/>
                 {duplicates.map((duplicate) =>
                     <DuplikaatitPerson
@@ -102,6 +104,7 @@ class HenkiloViewDuplikaatit extends React.Component<Props, State> {
                         isMaster={false}
                         classNames={{'person': true}}
                         vainLuku={this.props.vainLuku}
+                        henkiloType={this.props.henkiloType}
                         setSelection={this.setSelection.bind(this)}
                         yksiloitySelected={this.state.yksiloitySelected}>
                     </DuplikaatitPerson>

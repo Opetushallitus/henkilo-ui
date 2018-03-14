@@ -14,6 +14,7 @@ import Kayttajanimi from "../labelvalues/Kayttajanimi";
 import PasswordButton from "../buttons/PasswordButton";
 import * as R from 'ramda';
 import PassivoiButton from "../buttons/PassivoiButton";
+import AktivoiButton from '../buttons/AktivoiButton';
 
 type Props = {
     readOnly: boolean,
@@ -27,6 +28,7 @@ type Props = {
     koodisto: any,
     L: L,
     locale: Locale,
+    aktivoiHenkilo: (oid: string) => void,
     yksiloiHenkilo: () => void,
     isAdmin: boolean,
     oidHenkilo: string,
@@ -55,7 +57,7 @@ class PalveluUserContent extends React.Component<Props, State> {
                 updateAction={this.props.updateAction}
                 basicInfo={this.createBasicInfo()}
                 readOnlyButtons={this.createReadOnlyButtons()}
-                isValidForm={true}
+                isValidForm={this.props.isValidForm}
             />;
     }
 
@@ -76,7 +78,7 @@ class PalveluUserContent extends React.Component<Props, State> {
                 />,
             ],
             [
-                <Kayttajanimi disabled={!!R.path(['kayttajatieto', 'username'], this.props.henkilo)}
+                <Kayttajanimi disabled={!this.props.isAdmin && !!R.path(['kayttajatieto', 'username'], this.props.henkilo)}
                               {...props}
                 />,
             ],
@@ -93,6 +95,10 @@ class PalveluUserContent extends React.Component<Props, State> {
                 disabled={duplicate || passivoitu}
             />,
             this.props.isAdmin ? <PassivoiButton disabled={duplicate || passivoitu} /> : null,
+            this.props.isAdmin && this.props.henkilo.henkilo.passivoitu ? <AktivoiButton
+                L={this.props.L}
+                oid={this.props.henkilo.henkilo.oidHenkilo}
+                onClick={this.props.aktivoiHenkilo} /> : null,
             <PasswordButton
                 oidHenkilo={this.props.oidHenkilo}
                 styles={{top: '3rem', left: '0', width: '18rem'}}

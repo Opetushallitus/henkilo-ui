@@ -4,7 +4,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import StaticUtils from "../../StaticUtils";
 import type {L} from "../../../../types/localisation.type";
-import {updateHenkiloAndRefetch, updateAndRefetchKayttajatieto} from "../../../../actions/henkilo.actions";
+import {updateHenkiloAndRefetch, updateAndRefetchKayttajatieto, aktivoiHenkilo} from "../../../../actions/henkilo.actions";
 import type {Henkilo} from "../../../../types/domain/oppijanumerorekisteri/henkilo.types";
 import OppijaUserContent from "./OppijaUserContent";
 import AdminUserContent from "./AdminUserContent";
@@ -15,11 +15,14 @@ import {isValidKutsumanimi} from "../../../../validation/KutsumanimiValidator";
 import {LocalNotification} from "../../Notification/LocalNotification";
 import {NOTIFICATIONTYPES} from "../../Notification/notificationtypes";
 import type {GlobalNotificationConfig} from "../../../../types/notification.types";
+import { isValidKayttajatunnus } from '../../../../validation/KayttajatunnusValidator';
+import type { Kayttaja } from '../../../../types/domain/kayttooikeus/kayttaja.types'
 
 type Props = {
     L: L,
     henkilo: {
         henkilo: Henkilo,
+        kayttaja: Kayttaja,
         henkiloLoading: boolean,
         kayttajatietoLoading: boolean,
     },
@@ -32,10 +35,11 @@ type Props = {
     readOnly: boolean,
     basicInfo: (boolean, (any) => void, (any) => void, any) => any,
     readOnlyButtons: ((any) => void) => any,
-    updateHenkiloAndRefetch: (any) => void,
+    updateHenkiloAndRefetch: (any, GlobalNotificationConfig) => void,
     updateAndRefetchKayttajatieto: (henkiloOid: string, kayttajatunnus: string) => void,
     oidHenkilo: string,
     view: string,
+    aktivoiHenkilo: (oid: string) => void,
 }
 
 type State = {
@@ -71,7 +75,7 @@ class UserContentContainer extends React.Component<Props, State> {
     }
 
     render() {
-        const henkiloTyyppi = this.props.henkilo && this.props.henkilo.henkilo && this.props.henkilo.henkilo.henkiloTyyppi;
+        const kayttajaTyyppi = this.props.henkilo && this.props.henkilo.kayttaja && this.props.henkilo.kayttaja.kayttajaTyyppi;
         const userContentProps = {
             readOnly: this.state.readOnly,
             discardAction: this._discard.bind(this),
@@ -80,11 +84,12 @@ class UserContentContainer extends React.Component<Props, State> {
             updateDateAction: this._updateDateField.bind(this),
             henkiloUpdate: this.state.henkiloUpdate,
             edit: this._edit.bind(this),
+            aktivoiHenkilo: this.props.aktivoiHenkilo,
             oidHenkilo: this.props.oidHenkilo,
             isValidForm: this._validForm()
         };
         let content;
-        if (henkiloTyyppi === 'PALVELU') {
+        if (kayttajaTyyppi === 'PALVELU') {
             content = <PalveluUserContent {...userContentProps} />;
         }
         else if (this.props.view === 'OPPIJA') {
@@ -114,6 +119,9 @@ class UserContentContainer extends React.Component<Props, State> {
                 <ul>
                     {this._validKutsumanimi() ? null : <li>{this.props.L['NOTIFICATION_HENKILOTIEDOT_KUTSUMANIMI_VIRHE']}</li>}
                 </ul>
+                <ul>
+                    {this._validKayttajatunnus() ? null : <li>{this.props.L['NOTIFICATION_HENKILOTIEDOT_KAYTTAJATUNNUS_VIRHE']}</li>}
+                </ul>
             </LocalNotification>
         </div>;
     }
@@ -124,7 +132,7 @@ class UserContentContainer extends React.Component<Props, State> {
 
     _additionalInfo() {
         const info = [];
-        if (this.props.henkilo.henkilo.henkiloTyyppi === 'PALVELU') {
+        if (this.props.henkilo.kayttaja.kayttajaTyyppi === 'PALVELU') {
             info.push(this.props.L['HENKILO_ADDITIOINALINFO_PALVELU']);
         }
         else {
@@ -182,7 +190,8 @@ class UserContentContainer extends React.Component<Props, State> {
     }
 
     _validForm = (): boolean => {
-        return this._validKutsumanimi();
+        return this._validKutsumanimi()
+            && this._validKayttajatunnus();
     };
 
     _validKutsumanimi = (): boolean => {
@@ -191,6 +200,10 @@ class UserContentContainer extends React.Component<Props, State> {
         return isValidKutsumanimi(etunimet, kutsumanimi);
     };
 
+    _validKayttajatunnus = (): boolean => {
+        const kayttajatunnus = this.state.henkiloUpdate.kayttajanimi
+        return !kayttajatunnus || isValidKayttajatunnus(kayttajatunnus)
+    }
 
 }
 
@@ -200,4 +213,4 @@ const mapStateToProps = (state) => ({
     L: state.l10n.localisations[state.locale],
 });
 
-export default connect(mapStateToProps, {updateHenkiloAndRefetch, updateAndRefetchKayttajatieto})(UserContentContainer);
+export default connect(mapStateToProps, {updateHenkiloAndRefetch, updateAndRefetchKayttajatieto, aktivoiHenkilo})(UserContentContainer);
