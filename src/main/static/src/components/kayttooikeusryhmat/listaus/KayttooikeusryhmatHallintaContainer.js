@@ -25,8 +25,6 @@ type Props = {
 class KayttooikeusryhmatContainer extends React.Component<Props> {
 
     componentDidMount() {
-        this.props.updateEmptyNavigation();
-
         this.props.fetchAllKayttooikeusryhma(true);
     }
 
