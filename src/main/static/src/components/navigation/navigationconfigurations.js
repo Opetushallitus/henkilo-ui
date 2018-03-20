@@ -5,7 +5,6 @@ export const mainNavigation = [
     {path: '/kutsulomake', label: 'NAVI_VIRKAILIJAN_KUTSUMINEN'},
     {path: '/henkilohaku', label: 'NAVI_HENKILOHAKU'},
     {path: '/oppija/luonti', label: 'NAVI_OPPIJAN_LUONTI', sallitutRoolit: ['OPPIJANUMEROREKISTERI_OPPIJOIDENTUONTI']},
-    {path: '/kayttooikeusryhmat', label: 'NAVI_KAYTTOOIKEUSRYHMAT', sallitutRoolit: ['KAYTTOOIKEUS_KAYTTOOIKEUSRYHMIEN_LUKU']}
 ];
 
 export const oppijaNavi = oid => [
