@@ -77,6 +77,8 @@ class HenkiloViewContactContent extends React.Component<Props, State> {
     };
 
     createContent() {
+        const isEmail = (label: string) => label === 'YHTEYSTIETO_SAHKOPOSTI';
+        
         const content = this.state.contactInfo
             .filter(yhteystiedotRyhmaFlat => this.state.yhteystietoRemoveList.indexOf(yhteystiedotRyhmaFlat.id) === -1)
             .filter(yhteystiedotRyhmaFlat => this.state.yhteystietoRemoveList.indexOf(yhteystiedotRyhmaFlat.henkiloUiId) === -1)
@@ -99,6 +101,7 @@ class HenkiloViewContactContent extends React.Component<Props, State> {
                                     <span className="oph-bold">{this.props.L[yhteystietoFlat.label]}</span>
                                     <Field inputValue={yhteystietoFlat.inputValue}
                                            changeAction={this._updateModelField.bind(this)}
+                                           isEmail={isEmail(yhteystietoFlat.label)}
                                            readOnly={yhteystiedotRyhmaFlat.readOnly || this.state.readOnly}>
                                         {yhteystietoFlat.value}
                                     </Field>
