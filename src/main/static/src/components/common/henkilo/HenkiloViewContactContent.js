@@ -47,7 +47,7 @@ type State = {
     contactInfo: Array<ContactInfo>,
     yhteystietoRemoveList: Array<number | string>,
     modified: boolean,
-    isContactInfoValid: boolean
+    contactInfoErrorFields: Array<string>
 }
 
 class HenkiloViewContactContent extends React.Component<Props, State> {
@@ -75,7 +75,8 @@ class HenkiloViewContactContent extends React.Component<Props, State> {
             contactInfo: this._initialiseYhteystiedot(this.henkiloUpdate, this.contactInfoTemplate, this.props.koodisto.yhteystietotyypit, this.props.locale, []),
             yhteystietoRemoveList: [],
             isContactInfoValid: true,
-            modified: false
+            modified: false,
+            contactInfoErrorFields: []
         };
     };
 
@@ -103,7 +104,7 @@ class HenkiloViewContactContent extends React.Component<Props, State> {
                                 ? <Columns columns={2} className="labelValue">
                                     <span className="oph-bold">{this.props.L[yhteystietoFlat.label]}</span>
                                     <Field inputValue={yhteystietoFlat.inputValue}
-                                           changeAction={this._updateModelField.bind(this, yhteystietoFlat.label)}
+                                           changeAction={this._updateModelField.bind(this, yhteystietoFlat)}
                                            isEmail={isEmail(yhteystietoFlat.label)}
                                            readOnly={yhteystiedotRyhmaFlat.readOnly || this.state.readOnly}>
                                         {yhteystietoFlat.value}
@@ -158,7 +159,7 @@ class HenkiloViewContactContent extends React.Component<Props, State> {
                         <EditButtons discardAction={this._discard.bind(this)}
                                      updateAction={this._update.bind(this)}
                                      L={this.props.L}
-                                     isValidForm={this.state.modified && this.state.isContactInfoValid} />
+                                     isValidForm={this.state.modified && this.state.contactInfoErrorFields.length > 0} />
                     </div>
                 }
             </div>
@@ -199,10 +200,17 @@ class HenkiloViewContactContent extends React.Component<Props, State> {
         this.props.updateHenkiloAndRefetch(this.henkiloUpdate);
     };
 
-    _updateModelField(contactInfoLabel, event) {
-        const isContactInfoValid = this.validateContactInfo(contactInfoLabel, event.currentTarget.value);
+    _updateModelField(contactInfo, event) {
+        const isContactInfoValid = this.validateContactInfo(contactInfo.label, event.currentTarget.value);
         StaticUtils.updateFieldByDotAnnotation(this.henkiloUpdate, event);
-        this.setState({ modified: true, isContactInfoValid });
+        let contactInfoErrorFields = this.state.contactInfoErrorFields;
+        if(isContactInfoValid) {
+            contactInfoErrorFields = contactInfoErrorFields.filter(errorKeyValue => errorKeyValue !== contactInfo.inputValue);
+        } else {
+            contactInfoErrorFields.push( contactInfo.inputValue );
+        }
+
+        this.setState({ modified: true, contactInfoErrorFields});
     };
 
     _createYhteystiedotRyhma(yhteystietoryhmaTyyppi) {
