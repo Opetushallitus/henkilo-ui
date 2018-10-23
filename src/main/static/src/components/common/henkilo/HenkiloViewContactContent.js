@@ -20,6 +20,7 @@ import type {GlobalNotificationConfig} from "../../../types/notification.types";
 import type {KoodistoState} from "../../../reducers/koodisto.reducer";
 import {hasAnyPalveluRooli} from "../../../utilities/palvelurooli.util";
 import type {OmattiedotState} from "../../../reducers/omattiedot.reducer";
+import {validateEmail} from "../../../validation/EmailValidator";
 
 type Props = {
     L: L,
@@ -46,6 +47,7 @@ type State = {
     contactInfo: Array<ContactInfo>,
     yhteystietoRemoveList: Array<number | string>,
     modified: boolean,
+    isContactInfoValid: boolean
 }
 
 class HenkiloViewContactContent extends React.Component<Props, State> {
@@ -72,6 +74,7 @@ class HenkiloViewContactContent extends React.Component<Props, State> {
             showPassive: false,
             contactInfo: this._initialiseYhteystiedot(this.henkiloUpdate, this.contactInfoTemplate, this.props.koodisto.yhteystietotyypit, this.props.locale, []),
             yhteystietoRemoveList: [],
+            isContactInfoValid: true,
             modified: false
         };
     };
@@ -100,7 +103,7 @@ class HenkiloViewContactContent extends React.Component<Props, State> {
                                 ? <Columns columns={2} className="labelValue">
                                     <span className="oph-bold">{this.props.L[yhteystietoFlat.label]}</span>
                                     <Field inputValue={yhteystietoFlat.inputValue}
-                                           changeAction={this._updateModelField.bind(this)}
+                                           changeAction={this._updateModelField.bind(this, yhteystietoFlat.label)}
                                            isEmail={isEmail(yhteystietoFlat.label)}
                                            readOnly={yhteystiedotRyhmaFlat.readOnly || this.state.readOnly}>
                                         {yhteystietoFlat.value}
@@ -155,7 +158,7 @@ class HenkiloViewContactContent extends React.Component<Props, State> {
                         <EditButtons discardAction={this._discard.bind(this)}
                                      updateAction={this._update.bind(this)}
                                      L={this.props.L}
-                                     isValidForm={this.state.modified} />
+                                     isValidForm={this.state.modified && this.state.isContactInfoValid} />
                     </div>
                 }
             </div>
@@ -196,9 +199,10 @@ class HenkiloViewContactContent extends React.Component<Props, State> {
         this.props.updateHenkiloAndRefetch(this.henkiloUpdate);
     };
 
-    _updateModelField(event) {
+    _updateModelField(contactInfoLabel, event) {
+        const isContactInfoValid = this.validateContactInfo(contactInfoLabel, event.currentTarget.value);
         StaticUtils.updateFieldByDotAnnotation(this.henkiloUpdate, event);
-        this.setState({modified: true,});
+        this.setState({ modified: true, isContactInfoValid });
     };
 
     _createYhteystiedotRyhma(yhteystietoryhmaTyyppi) {
@@ -252,6 +256,13 @@ class HenkiloViewContactContent extends React.Component<Props, State> {
             id: yhteystiedotRyhma.id,
             henkiloUiId: henkiloUiId,
         };
+    }
+
+    validateContactInfo(contactInfoLabel: string, contactInfoValue: string) {
+        if(contactInfoLabel === 'YHTEYSTIETO_SAHKOPOSTI') {
+            return validateEmail(contactInfoValue);
+        }
+        return true;
     }
 }
 
