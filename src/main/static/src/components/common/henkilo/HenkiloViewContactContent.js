@@ -159,7 +159,7 @@ class HenkiloViewContactContent extends React.Component<Props, State> {
                         <EditButtons discardAction={this._discard.bind(this)}
                                      updateAction={this._update.bind(this)}
                                      L={this.props.L}
-                                     isValidForm={this.state.modified && this.state.contactInfoErrorFields.length > 0} />
+                                     isValidForm={this.state.modified && this.state.contactInfoErrorFields.length === 0} />
                     </div>
                 }
             </div>
