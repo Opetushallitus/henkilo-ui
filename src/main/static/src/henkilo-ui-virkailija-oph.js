@@ -34,6 +34,7 @@ export default {
     "kayttooikeus-service.henkilo.kayttooikeus-list-grantable": "kayttooikeus-service/kayttooikeusanomus/henkilo/current/$1/canGrant",
     "kayttooikeus-service.henkilo.password": "kayttooikeus-service/henkilo/$1/password",
     "kayttooikeus-service.henkilo.current.omattiedot": "kayttooikeus-service/henkilo/current/omattiedot",
+
     "kayttooikeus-service.virkailija": "kayttooikeus-service/virkailija",
     "kayttooikeus-service.palvelukayttaja": "kayttooikeus-service/palvelukayttaja",
     "kayttooikeus-service.omattiedot.anomus.muokkaus": "kayttooikeus-service/kayttooikeusanomus/peruminen/currentuser",
@@ -54,6 +55,8 @@ export default {
     "kayttooikeus-service.anomus.haetut-kayttooikeusryhmat": "kayttooikeus-service/kayttooikeusanomus/haettuKayttoOikeusRyhma",
     "kayttooikeus-service.salasana.resetointi": "kayttooikeus-service/salasana/resetointi/$1",
     "kayttooikeus-service.cas.uudelleenrekisterointi": "kayttooikeus-service/cas/uudelleenrekisterointi",
+    "kayttooikeus-service.cas.henkilo.bylogintoken": "kayttooikeus-service/cas/henkilo/loginToken/$1",
+    "kayttooikeus-service.cas.emailverification": "kayttooikeus-service/cas/emailverification/$1",
     "kayttooikeus-service.henkilo.linkitykset": "kayttooikeus-service/henkilo/$1/linkitykset",
 
     "oppijanumerorekisteri-service.baseUrl": "/",

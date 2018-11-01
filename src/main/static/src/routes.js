@@ -29,6 +29,7 @@ import {
 } from './components/navigation/navigation.utils';
 import type {HenkiloState} from "./reducers/henkilo.reducer";
 import type {NaviTab} from "./types/navigation.type";
+import EmailVerificationContainer from "./components/sahkopostivarmennus/EmailVerificationContainer";
 
 export type RouteType = {
     path: string,
@@ -135,6 +136,11 @@ export default <Route path="/" component={App} getNaviTabs={updateDefaultNavigat
     <Route path="/vahvatunnistusinfo/:locale/:loginToken"
            component={VahvaTunnistusInfoContainer}
            title="TITLE_VIRKAILIJA_UUDELLEENTUNNISTAUTUMINEN"
+           isUnauthenticated
+    />
+    <Route path="/sahkopostivarmistus/:locale/:loginToken"
+           component={EmailVerificationContainer}
+           title="TITLE_SAHKOPOSTI_VARMISTAMINEN"
            isUnauthenticated
     />
     <Route path="/rekisteroidy"
