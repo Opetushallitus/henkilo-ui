@@ -90,7 +90,7 @@ export class EmailVerificationPage extends React.Component<Props, State> {
         try {
             const url = urls.url('kayttooikeus-service.cas.emailverification', this.props.loginToken);
             const redirectUrl = await http.put(url);
-
+            window.location.replace(redirectUrl);
         } catch (error) {
             throw error;
         }
