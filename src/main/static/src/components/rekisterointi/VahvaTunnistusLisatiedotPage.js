@@ -23,7 +23,7 @@ class VahvaTunnistusLisatiedotPage extends React.Component<VahvaTunnistusLisatie
                 </div>
                 <VahvaTunnistusLisatiedotForm
                     L={this.props.L}
-                    form={this.props.form}o
+                    form={this.props.form}
                     onChange={this.props.onChange}
                     onSubmit={this.props.onSubmit}
                 />
