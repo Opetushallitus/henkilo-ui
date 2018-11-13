@@ -122,6 +122,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers("/uudelleenrekisterointi/**").permitAll()
                     .antMatchers("/rekisteroidy").permitAll()
                     .antMatchers("/salasananresetointi/*/*").permitAll()
+                    .antMatchers("/sahkopostivarmistus/*/*").permitAll()
                     // Admin domain
                     .antMatchers("/admin/**").hasRole("APP_HENKILONHALLINTA_OPHREKISTERI")
                     .anyRequest().authenticated()
