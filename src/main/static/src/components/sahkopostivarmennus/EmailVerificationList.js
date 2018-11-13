@@ -17,7 +17,6 @@ type Props = {
 export class EmailVerificationList extends React.Component<Props> {
 
     render() {
-        console.log(this.props.yhteystiedotRyhma);
         return <React.Fragment>
             {this.props.yhteystiedotRyhma.map((yhteystietoryhma: YhteystietoRyhma, ryhmaIndex: number) => {
                 return yhteystietoryhma.yhteystieto

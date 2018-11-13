@@ -45,6 +45,8 @@ export class EmailVerificationPage extends React.Component<Props, State> {
 
     componentDidMount() {
         // Lisätään käyttäjän yhteystietoihin tyhjä sähköpostiosoite, jos sellaista ei löydy
+        
+        console.log(this.state.henkilo.yhteystiedotRyhma);
         if(this.state.emailFieldCount === 0) {
             const yhteystiedotRyhma = clone(this.state.henkilo.yhteystiedotRyhma);
             const emptyEmailYhteystieto: Yhteystieto = {
@@ -52,20 +54,24 @@ export class EmailVerificationPage extends React.Component<Props, State> {
                 yhteystietoArvo: ''
             };
 
-            // Jos käyttäjällä on muita kuin sähköposti-yhteystietoja, tehdään uusi yhteystietoryhmä
-            if(this.state.henkilo.yhteystiedotRyhma[0].yhteystieto.length >= 1) {
+            // Jos käyttäjällä ei ole yhteystietoryhmiä ollenkaan, tai jos käyttäjällä on vain muita kuin sähköpostiyhteystietoja
+            // niin lisätään uusi tyhjä yhteystietoryhmä ja tyhjä sähköposti-yhteystieto
+            if(this.state.henkilo.yhteystiedotRyhma.length === 0 || this.state.henkilo.yhteystiedotRyhma[0].yhteystieto.length >= 1) {
                 const yhteystietoRyhma: YhteystietoRyhma = {
                     ryhmaAlkuperaTieto: 'alkupera2',
                     ryhmaKuvaus: 'yhteystietotyyppi2',
                     yhteystieto: [emptyEmailYhteystieto]
                 };
+
                 yhteystiedotRyhma.push(yhteystietoRyhma);
-            } else {
-                // Jos käyttäjällä ei ole mitään yhteystietoja, lisätään tyhjä sähköpostiosoite tyhjään listaan
+
+            }
+            else if(this.state.henkilo.yhteystiedotRyhma[0].yhteystieto.length === 0) {
+                // Jos käyttäjällä on tyhjä yhteystietoryhmä, lisätään tyhjä sähköpostiosoite
                 yhteystiedotRyhma[0].yhteystieto.push(emptyEmailYhteystieto);
             }
 
-            this.setState({henkilo: { ...this.state.henkilo, yhteystiedotRyhma }}, () => {console.log(this.state.henkilo)})
+            this.setState({henkilo: { ...this.state.henkilo, yhteystiedotRyhma }}, () => {console.log(this.state.henkilo.yhteystiedotRyhma)})
         }
     }
 
@@ -78,7 +84,7 @@ export class EmailVerificationPage extends React.Component<Props, State> {
                                    L={this.props.L}></EmailVerificationList>
 
             <div style={{textAlign: 'center'}}>
-                <Button action={this.verifyEmailAddresses}
+                <Button action={this.verifyEmailAddresses.bind(this)}
                         isButton
                         disabled={!this.state.validForm}
                         big>{this.props.L['SAHKOPOSTI_VARMENNUS_JATKA']}</Button>
@@ -89,7 +95,7 @@ export class EmailVerificationPage extends React.Component<Props, State> {
     async verifyEmailAddresses() {
         try {
             const url = urls.url('kayttooikeus-service.cas.emailverification', this.props.loginToken);
-            const redirectUrl = await http.put(url);
+            const redirectUrl = await http.put(url, this.state.henkilo);
             window.location.replace(redirectUrl);
         } catch (error) {
             throw error;
@@ -98,8 +104,6 @@ export class EmailVerificationPage extends React.Component<Props, State> {
 
     emailChangeEvent(yhteystiedotRyhmaIndex: number, yhteystietoIndex: number, value: string) {
         let yhteystiedotRyhma: Array<YhteystietoRyhma> = this.state.henkilo.yhteystiedotRyhma;
-        console.log(yhteystiedotRyhmaIndex, yhteystietoIndex, value);
-        console.log(yhteystiedotRyhma);
         yhteystiedotRyhma[yhteystiedotRyhmaIndex].yhteystieto[yhteystietoIndex].yhteystietoArvo = value;
         const validForm = validateYhteystiedotRyhmaEmails(yhteystiedotRyhma);
         this.setState({henkilo: { ...this.state.henkilo, yhteystiedotRyhma }, validForm });
