@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import {connect} from 'react-redux';
+import * as R from 'ramda';
 import AbstractUserContent from "./AbstractUserContent";
 import Sukunimi from "../labelvalues/Sukunimi";
 import Etunimet from "../labelvalues/Etunimet";
@@ -107,6 +108,7 @@ class OmattiedotUserContent extends React.Component<Props> {
     createReadOnlyButtons = () => {
         const duplicate = this.props.henkilo.henkilo.duplicate;
         const passivoitu = this.props.henkilo.henkilo.passivoitu;
+        const kayttajatunnukseton = !R.path(['kayttajatieto', 'username'], this.props.henkilo)
         return [
             <EditButton
                 editAction={this.props.edit}
@@ -115,7 +117,7 @@ class OmattiedotUserContent extends React.Component<Props> {
             <PasswordButton
                 oidHenkilo={this.props.omattiedot.data.oid}
                 styles={{top: '3rem', left: '0', width: '18rem'}}
-                disabled={duplicate || passivoitu}
+                disabled={duplicate || passivoitu || kayttajatunnukseton}
             />,
         ];
     };
