@@ -55,7 +55,7 @@ export default {
     "kayttooikeus-service.anomus.haetut-kayttooikeusryhmat": "kayttooikeus-service/kayttooikeusanomus/haettuKayttoOikeusRyhma",
     "kayttooikeus-service.salasana.resetointi": "kayttooikeus-service/salasana/resetointi/$1",
     "kayttooikeus-service.cas.uudelleenrekisterointi": "kayttooikeus-service/cas/uudelleenrekisterointi",
-    "kayttooikeus-service.cas.henkilo.bylogintoken": "kayttooikeus-service/cas/henkilo/loginToken/$1",
+    "kayttooikeus-service.cas.henkilo.bylogintoken": "kayttooikeus-service/cas/henkilo/loginToken/$1/$2",
     "kayttooikeus-service.cas.emailverification": "kayttooikeus-service/cas/emailverification",
     "kayttooikeus-service.cas.logintoken.redirectToFrontpage": "kayttooikeus-service/cas/redirectToFrontpageloginToken/$1/$2",
     "kayttooikeus-service.henkilo.linkitykset": "kayttooikeus-service/henkilo/$1/linkitykset",
