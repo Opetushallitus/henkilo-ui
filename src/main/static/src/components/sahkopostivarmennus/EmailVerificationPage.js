@@ -37,7 +37,7 @@ export class EmailVerificationPage extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            validForm: false,
+            validForm: props.henkilo.yhteystiedotRyhma ? validateYhteystiedotRyhmaEmails(props.henkilo.yhteystiedotRyhma) : false,
             henkilo: props.henkilo,
             emailFieldCount: notEmptyYhteystiedotRyhmaEmailCount(props.henkilo.yhteystiedotRyhma)
         }
@@ -45,8 +45,6 @@ export class EmailVerificationPage extends React.Component<Props, State> {
 
     componentDidMount() {
         // Lisätään käyttäjän yhteystietoihin tyhjä sähköpostiosoite, jos sellaista ei löydy
-        
-        console.log(this.state.henkilo.yhteystiedotRyhma);
         if(this.state.emailFieldCount === 0) {
             const yhteystiedotRyhma = clone(this.state.henkilo.yhteystiedotRyhma);
             const emptyEmailYhteystieto: Yhteystieto = {
@@ -71,7 +69,7 @@ export class EmailVerificationPage extends React.Component<Props, State> {
                 yhteystiedotRyhma[0].yhteystieto.push(emptyEmailYhteystieto);
             }
 
-            this.setState({henkilo: { ...this.state.henkilo, yhteystiedotRyhma }}, () => {console.log(this.state.henkilo.yhteystiedotRyhma)})
+            this.setState({henkilo: { ...this.state.henkilo, yhteystiedotRyhma }});
         }
     }
 
@@ -94,8 +92,9 @@ export class EmailVerificationPage extends React.Component<Props, State> {
 
     async verifyEmailAddresses() {
         try {
-            const url = urls.url('kayttooikeus-service.cas.emailverification', this.props.loginToken);
-            const redirectUrl = await http.put(url, this.state.henkilo);
+            const requestParams = { loginToken: this.props.loginToken, kielisyys: this.props.locale };
+            const url = urls.url('kayttooikeus-service.cas.emailverification', requestParams );
+            const redirectUrl = await http.post(url, this.state.henkilo);
             window.location.replace(redirectUrl);
         } catch (error) {
             throw error;
@@ -108,7 +107,5 @@ export class EmailVerificationPage extends React.Component<Props, State> {
         const validForm = validateYhteystiedotRyhmaEmails(yhteystiedotRyhma);
         this.setState({henkilo: { ...this.state.henkilo, yhteystiedotRyhma }, validForm });
     }
-
-
 
 }

@@ -143,6 +143,11 @@ export default <Route path="/" component={App} getNaviTabs={updateDefaultNavigat
            title="TITLE_SAHKOPOSTI_VARMISTAMINEN"
            isUnauthenticated
     />
+    <Route path="/sahkopostivarmistus/virhe/:locale/:loginToken/:virhekoodi"
+           component={EmailVerificationContainer}
+           title="TITLE_VIRHESIVU"
+           isUnauthenticated
+    />
     <Route path="/rekisteroidy"
            component={RekisteroidyContainer}
            title="TITLE_REKISTEROINTI"
