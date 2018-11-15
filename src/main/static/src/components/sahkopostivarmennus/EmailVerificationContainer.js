@@ -36,7 +36,7 @@ class EmailVerificationContainer extends React.Component<Props, State> {
 
     async componentDidMount() {
         if (this.props.loginToken) {
-            const url = urls.url('kayttooikeus-service.cas.henkilo.bylogintoken', this.props.loginToken);
+            const url = urls.url('kayttooikeus-service.cas.henkilo.bylogintoken', this.props.loginToken, this.props.locale);
             try {
                 this.setState({loading: true});
                 const henkilo = await http.get(url);
