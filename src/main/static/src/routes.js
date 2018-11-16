@@ -30,6 +30,7 @@ import {
 import type {HenkiloState} from "./reducers/henkilo.reducer";
 import type {NaviTab} from "./types/navigation.type";
 import EmailVerificationContainer from "./components/sahkopostivarmennus/EmailVerificationContainer";
+import EmailVerificationErrorContainer from "./components/sahkopostivarmennus/EmailVerificationErrorContainer";
 
 export type RouteType = {
     path: string,
@@ -144,7 +145,7 @@ export default <Route path="/" component={App} getNaviTabs={updateDefaultNavigat
            isUnauthenticated
     />
     <Route path="/sahkopostivarmistus/virhe/:locale/:loginToken/:virhekoodi"
-           component={EmailVerificationContainer}
+           component={EmailVerificationErrorContainer}
            title="TITLE_VIRHESIVU"
            isUnauthenticated
     />

@@ -20,7 +20,8 @@ type Props = {
     locale: Locale,
     L: L,
     henkilo: Henkilo,
-    loginToken: string
+    loginToken: string,
+    router: any
 }
 
 type State = {
@@ -92,10 +93,16 @@ export class EmailVerificationPage extends React.Component<Props, State> {
 
     async verifyEmailAddresses() {
         try {
-            const requestParams = { loginToken: this.props.loginToken, kielisyys: this.props.locale };
-            const url = urls.url('kayttooikeus-service.cas.emailverification', requestParams );
-            const redirectUrl = await http.post(url, this.state.henkilo);
-            window.location.replace(redirectUrl);
+            const loginTokenValidationCodeUrl = urls.url('kayttooikeus-service.cas.emailverification.loginToken.validation', this.props.loginToken);
+            const loginTokenValidationCode = await http.get(loginTokenValidationCodeUrl);
+            if(loginTokenValidationCode !== 'TOKEN_OK') {
+                this.props.router.push(`/sahkopostivarmistus/virhe/${this.props.locale}/${this.props.loginToken}/${loginTokenValidationCode}`);
+            } else {
+                const emailVerificationUrl = urls.url('kayttooikeus-service.cas.emailverification', this.props.loginToken);
+                const redirectParams = await http.post(emailVerificationUrl, this.state.henkilo);
+                const redirectUrl = urls.url('cas.login', redirectParams);
+                window.location.replace(redirectUrl);
+            }
         } catch (error) {
             throw error;
         }

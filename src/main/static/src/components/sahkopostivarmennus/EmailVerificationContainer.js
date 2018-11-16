@@ -13,7 +13,8 @@ import type {Henkilo} from "../../types/domain/oppijanumerorekisteri/henkilo.typ
 type Props = {
     loginToken: string,
     locale: Locale,
-    L:L
+    L:L,
+    router: any
 }
 
 type State = {
@@ -36,7 +37,7 @@ class EmailVerificationContainer extends React.Component<Props, State> {
 
     async componentDidMount() {
         if (this.props.loginToken) {
-            const url = urls.url('kayttooikeus-service.cas.henkilo.bylogintoken', this.props.loginToken, this.props.locale);
+            const url = urls.url('kayttooikeus-service.cas.henkilo.bylogintoken', this.props.loginToken);
             try {
                 this.setState({loading: true});
                 const henkilo = await http.get(url);
@@ -51,7 +52,8 @@ class EmailVerificationContainer extends React.Component<Props, State> {
         return this.state.loading ? <Loader /> : <EmailVerificationPage henkilo={this.state.henkilo}
                                                                         locale={this.props.locale}
                                                                         L={this.props.L}
-                                                                        loginToken={this.props.loginToken}/>;
+                                                                        loginToken={this.props.loginToken}
+                                                                        router={this.props.router}/>;
     }
 }
 
