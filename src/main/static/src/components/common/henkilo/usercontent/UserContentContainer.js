@@ -3,7 +3,7 @@ import './UserContentContainer.css';
 import React from 'react';
 import {connect} from 'react-redux';
 import StaticUtils from "../../StaticUtils";
-import type {L} from "../../../../types/localisation.type";
+import type {Localisations} from "../../../../types/localisation.type";
 import {updateHenkiloAndRefetch, updateAndRefetchKayttajatieto, aktivoiHenkilo} from "../../../../actions/henkilo.actions";
 import type {Henkilo} from "../../../../types/domain/oppijanumerorekisteri/henkilo.types";
 import OppijaUserContent from "./OppijaUserContent";
@@ -22,9 +22,10 @@ import {urls} from 'oph-urls-js';
 import {fetchOmattiedot, updateAnomusilmoitus} from "../../../../actions/omattiedot.actions";
 import moment from 'moment';
 import PropertySingleton from "../../../../globals/PropertySingleton";
+import {clone} from 'ramda';
 
 type Props = {
-    L: L,
+    L: Localisations,
     henkilo: {
         henkilo: Henkilo,
         kayttaja: Kayttaja,
@@ -55,7 +56,6 @@ type State = {
     henkiloUpdate: any,
     readOnly: boolean,
     showPassive: boolean,
-    isLoading: boolean,
 }
 
 class UserContentContainer extends React.Component<Props, State> {
@@ -69,26 +69,19 @@ class UserContentContainer extends React.Component<Props, State> {
         this.state = {
             henkiloUpdate,
             readOnly: true,
-            showPassive: false,
-            isLoading: true,
+            showPassive: false
         };
 
 
     };
 
     componentWillReceiveProps(nextProps: Props) {
-        if (this.state.isLoading) {
-            const allLoaded = !nextProps.henkilo.henkiloLoading && !nextProps.omattiedot.omattiedotLoading;
-            if (allLoaded) {
-                const henkiloUpdate = JSON.parse(JSON.stringify(nextProps.henkilo.henkilo)); // deep copy
-                henkiloUpdate.anomusilmoitus = nextProps.omattiedot && nextProps.omattiedot.anomusilmoitus;
+        const henkiloUpdate: any = clone(nextProps.henkilo.henkilo);
+        henkiloUpdate.anomusilmoitus = nextProps.omattiedot && nextProps.omattiedot.anomusilmoitus;
 
-                this.setState({
-                    isLoading: false,
-                    henkiloUpdate,
-                });
-            }
-        }
+        this.setState({
+            henkiloUpdate,
+        });
     }
 
     render() {
@@ -255,6 +248,7 @@ class UserContentContainer extends React.Component<Props, State> {
         const yksilointivirheMap = {
             HETU_EI_OIKEA: 'HENKILO_YKSILOINTIVIRHE_HETU_EI_OIKEA',
             HETU_EI_VTJ: 'HENKILO_YKSILOINTIVIRHE_HETU_EI_VTJ',
+            HETU_PASSIVOITU: 'HENKILO_YKSILOINTIVIRHE_HETU_PASSIVOITU',
             MUU_UUDELLEENYRITETTAVA: 'HENKILO_YKSILOINTIVIRHE_MUU_UUDELLEENYRITETTAVA',
             MUU: 'HENKILO_YKSILOINTIVIRHE_MUU',
         };

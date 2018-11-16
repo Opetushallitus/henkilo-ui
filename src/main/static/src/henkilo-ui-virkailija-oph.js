@@ -53,7 +53,6 @@ export default {
     "kayttooikeus-service.palvelu.listaus": "kayttooikeus-service/palvelu",
     "kayttooikeus-service.kayttooikeus.listaus": "kayttooikeus-service/kayttooikeus/$1",
     "kayttooikeus-service.anomus.haetut-kayttooikeusryhmat": "kayttooikeus-service/kayttooikeusanomus/haettuKayttoOikeusRyhma",
-    "kayttooikeus-service.salasana.resetointi": "kayttooikeus-service/salasana/resetointi/$1",
     "kayttooikeus-service.cas.uudelleenrekisterointi": "kayttooikeus-service/cas/uudelleenrekisterointi",
     "kayttooikeus-service.cas.henkilo.bylogintoken": "kayttooikeus-service/cas/henkilo/loginToken/$1",
     "kayttooikeus-service.cas.emailverification": "kayttooikeus-service/cas/emailverification/$1",
@@ -95,13 +94,11 @@ export default {
     "koodisto-service.koodisto.yhteystietotyypit": "koodisto-service/rest/json/yhteystietotyypit/koodi",
     "koodisto-service.koodisto.maatjavaltiot1": "koodisto-service/rest/json/maatjavaltiot1/koodi",
     "koodisto-service.koodisto.oppilaitostyypit": "koodisto-service/rest/codeelement/codes/oppilaitostyyppi/1",
+    "koodisto-service.koodisto.organisaatiotyypit": "koodisto-service/rest/codeelement/codes/organisaatiotyyppi/3",
 
     "shibboleth.baseUrl": "/",
     "shibboleth.identification": "shibbolethVirkailija/virkailija$1",
     "shibboleth.kayttooikeus-service.cas.tunnistus": "kayttooikeus-service/cas/tunnistus",
-
-    "virkailijan-tyopoyta.baseUrl": "/",
-    "virkailijan-tyopoyta.base": "virkailijan-tyopoyta",
 
     "virkailija-raamit.baseUrl": "/",
     "virkailija-raamit.raamit.js": "virkailija-raamit/apply-raamit.js",

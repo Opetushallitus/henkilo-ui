@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import './DuplikaatitPerson.css';
 import DuplikaatitApplicationsPopup from './DuplikaatitApplicationsPopup';
 import DuplikaatitPersonOtherApplications from './DuplikaatitPersonOtherApplications';
-import type {L} from "../../../types/localisation.type";
+import type {Localisations} from "../../../types/localisation.type";
 import type {Locale} from "../../../types/locale.type";
 import type {KoodistoState} from "../../../reducers/koodisto.reducer";
 import type {DuplikaatitHakemus} from "../../../types/duplikaatithakemus.types";
@@ -14,7 +14,7 @@ import type {Hakemus} from "../../../types/domain/oppijanumerorekisteri/Hakemus.
 
 type Props = {
     henkilo: any,
-    L: L,
+    L: Localisations,
     locale: Locale,
     koodisto: KoodistoState,
     setSelection: (string) => void,
@@ -57,7 +57,7 @@ export default class DuplikaatitPerson extends React.Component<Props, State> {
             <span>{henkilo.kutsumanimi}</span>
             <span>{henkilo.etunimet}</span>
             <span>{henkilo.sukunimi}</span>
-            <span>{henkilo.sukupuoli === '2' ? L['HENKILO_YHTEISET_NAINEN'] : L['HENKILO_YHTEISET_MIES']}</span>
+            <span>{this.renderSukupuoli(henkilo.sukupuoli)}</span>
             <span>{henkilo.syntymaaika}</span>
             <span><Link className="oph-link" to={`/${targetPage}/${henkilo.oidHenkilo}`}>{henkilo.oidHenkilo}</Link></span>
             <span>{hakemus.kansalaisuus || ''}</span>
@@ -84,6 +84,17 @@ export default class DuplikaatitPerson extends React.Component<Props, State> {
                          onChange={this._onCheck.bind(this, henkilo.oidHenkilo)}/></span>
             }
         </div>;
+    }
+
+    renderSukupuoli(sukupuoli: ?string) {
+        switch (sukupuoli) {
+            case '1':
+                return this.props.L['HENKILO_YHTEISET_MIES'];
+            case '2':
+                return this.props.L['HENKILO_YHTEISET_NAINEN'];
+            default:
+                return '';
+        }
     }
 
     _onCheck(oid: string) {
