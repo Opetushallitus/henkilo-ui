@@ -27,11 +27,17 @@ class EmailVerificationErrorContainer extends React.Component<Props> {
                        topic="SAHKOPOSTI_VARMENNUS_TOKEN_KAYTETTY_OTSIKKO"
                        text="SAHKOPOSTI_VARMENNUS_TOKEN_KAYTETTY_TEKSTI"
                        buttonText="SAHKOPOSTI_VARMENNUS_KIRJAUTUMISSIVULLE" />;
-        } else if(virhekoodi === 'TOKEN_VANHENTUNUT_TAI_EI_LOYDY') {
+        } else if(virhekoodi === 'TOKEN_VANHENTUNUT') {
             return <VirhePage
                 theme="virhe"
-                topic="SAHKOPOSTI_VARMENNUS_TOKEN_VANHENTUNUT_EI_LOYDY_OTSIKKO"
-                text="SAHKOPOSTI_VARMENNUS_TOKEN_VANHENTUNUT_EI_LOYDY_TEKSTI"
+                topic="SAHKOPOSTI_VARMENNUS_TOKEN_VANHENTUNUT_OTSIKKO"
+                text="SAHKOPOSTI_VARMENNUS_TOKEN_VANHENTUNUT_TEKSTI"
+                buttonText="SAHKOPOSTI_VARMENNUS_KIRJAUTUMISSIVULLE"/>;
+        } else if(virhekoodi === 'TOKEN_EI_LOYDY') {
+            return <VirhePage
+                theme="virhe"
+                topic="SAHKOPOSTI_VARMENNUS_TOKEN_EI_LOYDY_OTSIKKO"
+                text="SAHKOPOSTI_VARMENNUS_TOKEN_EI_LOYDY_TEKSTI"
                 buttonText="SAHKOPOSTI_VARMENNUS_KIRJAUTUMISSIVULLE"/>;
         } else if(virhekoodi === 'UNKNOWN') {
             // Tähän ohjataan, jos redirectToFrontPage-metodi päätyy virheeseen
