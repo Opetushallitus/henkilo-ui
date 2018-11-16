@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import {connect} from 'react-redux';
-import type {L} from "../../types/localisation.type";
+import type {Localisations} from "../../types/localisation.type";
 import type {Locale} from "../../types/locale.type";
 import VirhePage from "../common/page/VirhePage";
 import {urls} from 'oph-urls-js';
@@ -10,7 +10,7 @@ import {http} from "../../http";
 
 type Props = {
     virhekoodi: string,
-    L: L,
+    L: Localisations,
     locale: Locale,
     loginToken: string,
     router: any

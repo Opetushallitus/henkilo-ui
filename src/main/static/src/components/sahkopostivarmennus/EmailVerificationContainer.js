@@ -4,7 +4,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import type {Locale} from "../../types/locale.type";
 import {EmailVerificationPage} from "./EmailVerificationPage";
-import type {L} from "../../types/localisation.type";
+import type {Localisations} from "../../types/localisation.type";
 import {urls} from 'oph-urls-js';
 import {http} from "../../http";
 import Loader from "../common/icons/Loader";
@@ -13,7 +13,7 @@ import type {Henkilo} from "../../types/domain/oppijanumerorekisteri/henkilo.typ
 type Props = {
     loginToken: string,
     locale: Locale,
-    L:L,
+    L:Localisations,
     router: any
 }
 

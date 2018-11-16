@@ -3,12 +3,12 @@ import React from 'react';
 import type {YhteystietoRyhma} from "../../types/domain/oppijanumerorekisteri/yhteystietoryhma.types";
 import type {Yhteystieto} from "../../types/domain/oppijanumerorekisteri/yhteystieto.types";
 import {validateEmail} from "../../validation/EmailValidator";
-import type {L} from "../../types/localisation.type";
+import type {Localisations} from "../../types/localisation.type";
 
 type Props = {
     yhteystiedotRyhma: Array<YhteystietoRyhma>,
     onEmailChange: (number, number, string) => void,
-    L: L
+    L: Localisations
 }
 
 /*

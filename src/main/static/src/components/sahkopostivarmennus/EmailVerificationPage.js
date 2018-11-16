@@ -2,7 +2,7 @@
 
 import React from 'react';
 import type {Locale} from "../../types/locale.type";
-import type {L} from "../../types/localisation.type";
+import type {Localisations} from "../../types/localisation.type";
 import type {Henkilo} from "../../types/domain/oppijanumerorekisteri/henkilo.types";
 import {http} from "../../http";
 import {urls} from 'oph-urls-js';
@@ -18,7 +18,7 @@ import type {Yhteystieto} from "../../types/domain/oppijanumerorekisteri/yhteyst
 
 type Props = {
     locale: Locale,
-    L: L,
+    L: Localisations,
     henkilo: Henkilo,
     loginToken: string,
     router: any
