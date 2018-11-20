@@ -24,7 +24,6 @@ export type Henkilo = {
     kasittelijaOid: string,
     syntymaaika: string,
     sukupuoli: string,
-    oppijanumero: string,
     turvakielto: boolean,
     eiSuomalaistaHetua: boolean,
     yksiloity: boolean,

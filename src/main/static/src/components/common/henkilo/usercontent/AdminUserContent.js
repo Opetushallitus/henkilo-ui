@@ -10,7 +10,6 @@ import Kutsumanimi from "../labelvalues/Kutsumanimi";
 import Kansalaisuus from "../labelvalues/Kansalaisuus";
 import Aidinkieli from "../labelvalues/Aidinkieli";
 import Oid from "../labelvalues/Oid";
-import Oppijanumero from "../labelvalues/Oppijanumero";
 import Asiointikieli from "../labelvalues/Asiointikieli";
 import EditButton from "../buttons/EditButton";
 import YksiloiHetutonButton from "../buttons/YksiloiHetutonButton";
@@ -97,7 +96,6 @@ class AdminUserContent extends React.Component<Props, State> {
                 <Kansalaisuus {...props} />,
                 <Aidinkieli {...props} />,
                 <Sukupuoli {...props} />,
-                <Oppijanumero {...props} />,
                 <Oid {...props} />,
                 <Asiointikieli {...props} />,
             ],
