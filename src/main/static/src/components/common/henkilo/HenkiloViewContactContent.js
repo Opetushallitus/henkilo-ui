@@ -81,7 +81,7 @@ class HenkiloViewContactContent extends React.Component<Props, State> {
     };
 
     createContent() {
-        const isEmail = (label: string) => label === 'YHTEYSTIETO_SAHKOPOSTI';
+        const isEmail = (label: string) => label === PropertySingleton.state.SAHKOPOSTI;
         
         const content = this.state.contactInfo
             .filter(yhteystiedotRyhmaFlat => this.state.yhteystietoRemoveList.indexOf(yhteystiedotRyhmaFlat.id) === -1)
@@ -267,7 +267,7 @@ class HenkiloViewContactContent extends React.Component<Props, State> {
     }
 
     validateContactInfo(contactInfoLabel: string, contactInfoValue: string) {
-        if(contactInfoLabel === 'YHTEYSTIETO_SAHKOPOSTI') {
+        if(contactInfoLabel === PropertySingleton.state.SAHKOPOSTI) {
             return validateEmail(contactInfoValue);
         }
         return true;
