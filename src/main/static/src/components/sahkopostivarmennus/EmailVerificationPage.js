@@ -15,6 +15,7 @@ import {
     validateYhteystiedotRyhmaEmails
 } from "../../utilities/yhteystietoryhma.util";
 import type {Yhteystieto} from "../../types/domain/oppijanumerorekisteri/yhteystieto.types";
+import PropertySingleton from "../../globals/PropertySingleton";
 
 type Props = {
     locale: Locale,
@@ -49,7 +50,7 @@ export class EmailVerificationPage extends React.Component<Props, State> {
         if(this.state.emailFieldCount === 0) {
             const yhteystiedotRyhma = clone(this.state.henkilo.yhteystiedotRyhma);
             const emptyEmailYhteystieto: Yhteystieto = {
-                yhteystietoTyyppi: 'YHTEYSTIETO_SAHKOPOSTI',
+                yhteystietoTyyppi: PropertySingleton.state.SAHKOPOSTI,
                 yhteystietoArvo: ''
             };
 
@@ -57,8 +58,8 @@ export class EmailVerificationPage extends React.Component<Props, State> {
             // niin lisätään uusi tyhjä yhteystietoryhmä ja tyhjä sähköposti-yhteystieto
             if(this.state.henkilo.yhteystiedotRyhma.length === 0 || this.state.henkilo.yhteystiedotRyhma[0].yhteystieto.length >= 1) {
                 const yhteystietoRyhma: YhteystietoRyhma = {
-                    ryhmaAlkuperaTieto: 'alkupera2',
-                    ryhmaKuvaus: 'yhteystietotyyppi2',
+                    ryhmaAlkuperaTieto: PropertySingleton.state.YHTEYSTIETO_ALKUPERA_VIRKAILIJA_UI,
+                    ryhmaKuvaus: PropertySingleton.state.TYOOSOITE,
                     yhteystieto: [emptyEmailYhteystieto]
                 };
 
