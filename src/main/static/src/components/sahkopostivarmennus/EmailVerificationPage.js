@@ -9,7 +9,7 @@ import {urls} from 'oph-urls-js';
 import Button from "../common/button/Button";
 import type {YhteystietoRyhma} from "../../types/domain/oppijanumerorekisteri/yhteystietoryhma.types";
 import {EmailVerificationList} from "./EmailVerificationList";
-import {clone} from 'ramda';
+import {clone, remove} from 'ramda';
 import {
     notEmptyYhteystiedotRyhmaEmailCount,
     validateYhteystiedotRyhmaEmails
@@ -81,7 +81,9 @@ export class EmailVerificationPage extends React.Component<Props, State> {
             <p style={{textAlign: 'left'}}>{this.props.L[this.state.emailFieldCount > 0 ? 'SAHKOPOSTI_VARMENNUS_OHJE' : 'SAHKOPOSTI_VARMENNUS_EI_OSOITTEITA']}</p>
             <EmailVerificationList yhteystiedotRyhma={this.state.henkilo.yhteystiedotRyhma}
                                    onEmailChange={this.emailChangeEvent.bind(this)}
-                                   L={this.props.L}></EmailVerificationList>
+                                   onEmailRemove={this.onEmailRemove.bind(this)}
+                                   L={this.props.L}
+                                   emailFieldCount={this.state.emailFieldCount}></EmailVerificationList>
 
             <div style={{textAlign: 'center'}}>
                 <Button action={this.verifyEmailAddresses.bind(this)}
@@ -109,11 +111,30 @@ export class EmailVerificationPage extends React.Component<Props, State> {
         }
     }
 
-    emailChangeEvent(yhteystiedotRyhmaIndex: number, yhteystietoIndex: number, value: string) {
+    emailChangeEvent(yhteystiedotRyhmaIndex: number, yhteystietoIndex: number, value: string): void {
         let yhteystiedotRyhma: Array<YhteystietoRyhma> = this.state.henkilo.yhteystiedotRyhma;
         yhteystiedotRyhma[yhteystiedotRyhmaIndex].yhteystieto[yhteystietoIndex].yhteystietoArvo = value;
         const validForm = validateYhteystiedotRyhmaEmails(yhteystiedotRyhma);
         this.setState({henkilo: { ...this.state.henkilo, yhteystiedotRyhma }, validForm });
+    }
+
+    onEmailRemove(yhteystiedotRyhmaIndex: number, yhteystietoIndex: number): void {
+        let yhteystiedotRyhma = this.state.henkilo.yhteystiedotRyhma;
+        const emailNotOnlyYhteystietoInYhteystietoryhma = yhteystiedotRyhma[yhteystiedotRyhmaIndex].yhteystieto
+            .filter( (yhteystieto: Yhteystieto) => yhteystieto.yhteystietoTyyppi !== PropertySingleton.state.SAHKOPOSTI)
+            .some( (yhteystieto: Yhteystieto) => yhteystieto.yhteystietoArvo !== '' && yhteystieto.yhteystietoArvo !== null && yhteystieto.yhteystietoArvo !== undefined);
+
+        if(emailNotOnlyYhteystietoInYhteystietoryhma) {
+            let yhteystietoRyhma = yhteystiedotRyhma[yhteystiedotRyhmaIndex];
+            yhteystietoRyhma.yhteystieto = remove(yhteystietoIndex, 1, yhteystietoRyhma.yhteystieto);
+        } else {
+            yhteystiedotRyhma = remove(yhteystiedotRyhmaIndex, 1, yhteystiedotRyhma);
+        }
+
+        this.setState({
+            henkilo: { ...this.state.henkilo, yhteystiedotRyhma},
+            emailFieldCount: notEmptyYhteystiedotRyhmaEmailCount(yhteystiedotRyhma)
+        });
     }
 
 }
