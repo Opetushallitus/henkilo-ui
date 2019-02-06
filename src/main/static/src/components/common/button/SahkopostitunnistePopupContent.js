@@ -45,7 +45,7 @@ class SahkopostitunnistePopupContent extends React.Component<Props, State> {
                 {
                     this.state.loading ? <Loader /> : this.state.sahkopostitunnisteet.length > 0 ? this.state.sahkopostitunnisteet.map(sahkopostitunniste =>
                     (<li className="tag" key={sahkopostitunniste}><span>{sahkopostitunniste}</span> <button type="button" className="oph-button oph-button-ghost remove"
-                                                                                           onClick={ () => this.removeSahkopostitunniste(sahkopostitunniste)}>{this.props.L['POISTA']}</a>
+                                                                                           onClick={ () => this.removeSahkopostitunniste(sahkopostitunniste)}>{this.props.L['POISTA']}</button>
                     </li>)) : <span className="oph-h4 oph-strong hakapopup">{this.props.L['EI_SAHKOPOSTITUNNISTEITA']}</span> }
             </ul>
             <div className="oph-field oph-field-is-required">
