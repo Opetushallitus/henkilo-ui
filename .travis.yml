@@ -16,7 +16,7 @@ env:
     - secure: "zoN/k383EjilwkhnSrROqREKz+sJAOpR+rHlf4nJouZ7sdCPCUrOa7Lv/MashK9xK0zsDPAH7uH9xZ6PYDxvoj8uN6h9/FVn6lTaQDgyJ1YgfA/xH8z5Q++8Qw5utw7YiCQNlGRVaqJGfL8uG7GhBunpxsprbtLlFkILYdVkuQFEFsb2Om25AelmfZZ2MOENS6EgNVut6jQb6H6yCY0bqjTNDq+EgZMPCXeW0aglO6yU9IVg5QzEtDlYKHFa4urQAlRdbor3iGw+P9HYmg6Lpx8EQlCtaSwm7ePfc4CsfsuEFgzhXsdRTSCOYrbzp1VfBIO3cKCvn4zgMjTQvZ31ujQ6WGaSuyNcLqM5yTCkj/w2WLVeXM2XZILeld5YzmM0IfjmH5j8rfaChN3QdU/DSKWqiuD/FJFPZOTHgVugo8gn0U3GAY2wkvO6o93LhiASeap2L9PAX7DGnjjeVxmvGVL7zEoUEZXRAqHMKRCWFdMgVh005Nbgx9YC/2CDbqAFRfJcEeNffx16UsYr1irENK4O/jr8jO4SRBINxaK891UDhNPXbO2dBqdL3KzHHuWu2T642qvvJGZqPCcbmTwERhHC75fUQxvUXZqCOlmU9/EKrDJOR2XmgsRZ7uoXlYEEwWsBeSQcPwnotsfLP1/lYy2vTqcp/pGNlNWjhR2T0Tg="
 
 install:
-  - git clone https://github.com/Opetushallitus/ci-tools.git
+  - git clone https://github.com/Opetushallitus/ci-tools.git --branch PP-357_458_readonly_container_nonroot_user
   - source ci-tools/common/setup-tools.sh
   - export ARTIFACT_NAME="henkilo-ui"
 
@@ -26,7 +26,7 @@ script:
   - mv target/henkiloui-*.jar $DOCKER_BUILD_DIR/artifact/${ARTIFACT_NAME}.jar
   - cp -vr src/main/resources/oph-configuration $DOCKER_BUILD_DIR/config/
 
-  - export BASE_IMAGE="baseimage-fatjar:master"
+  - export BASE_IMAGE="baseimage-fatjar:ci-139"
   - ./ci-tools/common/pull-image.sh
   - ./ci-tools/build/build-fatjar.sh $ARTIFACT_NAME
 
