@@ -22,7 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <springfox.version>2.7.0</springfox.version>
+        <springfox.version>2.9.2</springfox.version>
         <frontend-plugin.version>1.6</frontend-plugin.version>
         <nodejs.version>v10.16.3</nodejs.version>
 
@@ -222,7 +222,7 @@
                         </goals>
                         <configuration>
                             <target>
-                                <echo message="writing target/public/classes/buildversion.txt" />
+                                <echo message="writing target/public/classes/buildversion.txt"/>
                                 <echo file="target/classes/public/buildversion.txt">
                                     <![CDATA[artifactId=${project.artifactId}
 version=${project.version}
