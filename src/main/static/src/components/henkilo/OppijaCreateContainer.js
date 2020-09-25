@@ -118,7 +118,7 @@ class OppijaCreateContainer extends React.Component<Props, State> {
     };
 
     haeDuplikaatit = async (oppija: HenkiloCreate): Promise<Array<HenkiloDuplicate>> => {
-        const url = urls.url('oppijanumerorekisteri-service.henkilo.duplikaatit', oppija.etunimet, oppija.kutsumanimi, oppija.sukunimi);
+        const url = urls.url('oppijanumerorekisteri-service.henkilo.duplikaatit', oppija.etunimet, oppija.kutsumanimi, oppija.sukunimi, oppija.syntymaaika);
         return await http.get(url)
     };
 
