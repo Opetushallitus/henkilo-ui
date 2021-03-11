@@ -15,9 +15,9 @@ class VahvaTunnistusInfoPage extends React.Component<Props> {
     render() {
         const targetUrl = urls.url('cas-oppija.kayttooikeus-service.cas.tunnistus', {
             loginToken: this.props.loginToken,
-            kielisyys: this.props.locale,
+            locale: this.props.locale,
         });
-        const identificationUrl: string = urls.url('cas-oppija.identification', this.props.locale.toUpperCase(), {target: targetUrl});
+        const identificationUrl: string = urls.url('cas-oppija.identification', { locale: this.props.locale, service: targetUrl});
         return <InfoPage topicLocalised={this.props.L['VAHVATUNNISTUSINFO_OTSIKKO']}>
             <span className="oph-bold">{this.props.L['VAHVATUNNISTUSINFO_TEKSTI']}</span>
             <div style={{textAlign: 'center', paddingTop: '25px'}}>

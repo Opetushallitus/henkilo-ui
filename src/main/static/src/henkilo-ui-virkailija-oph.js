@@ -100,8 +100,8 @@ export default {
     "koodisto-service.koodisto.organisaatiotyypit": "koodisto-service/rest/codeelement/codes/organisaatiotyyppi/3",
 
     "cas-oppija.baseUrl": "/",
-    "cas-oppija.identification": "cas-oppija/login$1",
-    "cas-oppija.kayttooikeus-service.cas.tunnistus": "kayttooikeus-service/cas/tunnistus",
+    "cas-oppija.identification": "cas-oppija/login",
+    "cas-oppija.kayttooikeus-service.cas.tunnistus": "kayttooikeus-service/cas/validate",
 
     "virkailija-raamit.baseUrl": "/",
     "virkailija-raamit.raamit.js": "virkailija-raamit/apply-raamit.js",
