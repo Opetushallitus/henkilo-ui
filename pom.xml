@@ -31,6 +31,7 @@
         <buildNumber>default buildnumber</buildNumber>
         <branch>default branch</branch>
         <revision>default revision</revision>
+
         <sonar.coverage.jacoco.xmlReportPaths>**/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <sonar.sources>src/main/java,src/main/static/src</sonar.sources>
         <sonar.language>js,ts,tsx</sonar.language>
@@ -245,7 +246,7 @@
                         </goals>
                         <configuration>
                             <target>
-                                <echo message="writing target/public/classes/buildversion.txt" />
+                                <echo message="writing target/public/classes/buildversion.txt"/>
                                 <echo file="target/classes/public/buildversion.txt">
                                     <![CDATA[artifactId=${project.artifactId}
 version=${project.version}
