@@ -233,14 +233,28 @@ export const henkilo = (state: HenkiloState = initialState, action: any): Henkil
         case LINK_HENKILOS_FAILURE:
             return Object.assign({}, state, { linkingLoading: false });
         case FETCH_HENKILO_HAKEMUKSET.REQUEST:
+            if (state.duplicates.find((d) => d.oidHenkilo === action.oid)) {
+                return { ...state };
+            }
             return { ...state, hakemuksetLoading: true };
         case FETCH_HENKILO_HAKEMUKSET.SUCCESS:
+            if (state.duplicates.find((d) => d.oidHenkilo === action.oid)) {
+                return {
+                    ...state,
+                    duplicates: state.duplicates.map((d) =>
+                        d.oidHenkilo === action.oid ? { ...d, hakemukset: action.hakemukset } : d
+                    ),
+                };
+            }
             return {
                 ...state,
                 hakemuksetLoading: false,
                 hakemukset: action.hakemukset,
             };
         case FETCH_HENKILO_HAKEMUKSET.FAILURE:
+            if (state.duplicates.find((d) => d.oidHenkilo === action.oid)) {
+                return { ...state };
+            }
             return { ...state, hakemuksetLoading: false };
         case FETCH_HENKILO_YKSILOINTITIETO_REQUEST:
             return { ...state, yksilointitiedotLoading: true };

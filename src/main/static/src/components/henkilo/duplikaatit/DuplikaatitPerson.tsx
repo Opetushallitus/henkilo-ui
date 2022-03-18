@@ -10,6 +10,7 @@ import { Locale } from '../../../types/locale.type';
 import { KoodistoState } from '../../../reducers/koodisto.reducer';
 import { DuplikaatitHakemus } from '../../../types/duplikaatithakemus.types';
 import { Hakemus } from '../../../types/domain/oppijanumerorekisteri/Hakemus.type';
+import Loader from '../../common/icons/Loader';
 
 type Props = {
     henkilo: any;
@@ -76,15 +77,19 @@ export default class DuplikaatitPerson extends React.Component<Props, State> {
                 <span>{hakemus.passinumero || ''}</span>
                 <span>{hakemus.kansallinenIdTunnus || ''}</span>
                 <span>{hakemus.state || ''}</span>
-                <span>
-                    {hakemus.href ? (
-                        <a className="oph-link" href={hakemus.href}>
-                            {hakemus.oid}
-                        </a>
-                    ) : (
-                        ''
-                    )}
-                </span>
+                {henkilo.hakemukset ? (
+                    <span>
+                        {hakemus.href ? (
+                            <a className="oph-link" href={hakemus.href}>
+                                {hakemus.oid}
+                            </a>
+                        ) : (
+                            ''
+                        )}
+                    </span>
+                ) : (
+                    <Loader />
+                )}
                 <span>
                     {muutHakemukset.length > 0 ? (
                         <DuplikaatitApplicationsPopup

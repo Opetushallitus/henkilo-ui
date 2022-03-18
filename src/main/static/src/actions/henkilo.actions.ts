@@ -66,6 +66,7 @@ import { addGlobalNotification } from './notification.actions';
 import { NOTIFICATIONTYPES } from '../components/common/Notification/notificationtypes';
 import { localizeWithState } from '../utilities/localisation.util';
 import { GlobalNotificationConfig } from '../types/notification.types';
+import { HenkiloDuplicate } from '../types/domain/oppijanumerorekisteri/HenkiloDuplicate';
 
 const requestHenkilo = (oid) => ({ type: FETCH_HENKILO_REQUEST, oid });
 const receiveHenkilo = (json) => ({
@@ -469,7 +470,7 @@ export const fetchHenkiloDuplicates = (oidHenkilo) => async (dispatch, getState)
     dispatch(requestHenkiloDuplicates(oidHenkilo));
     const url = urls.url('oppijanumerorekisteri-service.henkilo.duplicates', oidHenkilo);
     try {
-        const duplicates = await http.get<[]>(url);
+        const duplicates = await http.get<HenkiloDuplicate[]>(url);
         if (duplicates.length === 0) {
             dispatch(
                 addGlobalNotification({
@@ -481,24 +482,14 @@ export const fetchHenkiloDuplicates = (oidHenkilo) => async (dispatch, getState)
             );
         }
         dispatch(requestHenkiloDuplicatesSuccess(oidHenkilo, duplicates));
+        duplicates.forEach((d) => fetchHenkiloHakemukset(d.oidHenkilo)(dispatch, getState));
     } catch (error) {
         dispatch(requestHenkiloDuplicatesFailure());
-        let errorMessage = localizeWithState('NOTIFICATION_DUPLIKAATIT_VIRHE', getState()) + ' ' + oidHenkilo;
-        if (
-            error.message.startsWith('Failed to read response from ataru') ||
-            error.message.startsWith('Failed to fetch applications from ataru')
-        ) {
-            errorMessage =
-                localizeWithState('NOTIFICATION_DUPLIKAATIT_HAKEMUKSET_ATARU_VIRHE', getState()) + ' ' + oidHenkilo;
-        } else if (error.message.startsWith('Failed fetching hakemuksetDto for henkilos')) {
-            errorMessage =
-                localizeWithState('NOTIFICATION_DUPLIKAATIT_HAKEMUKSET_HAKUAPP_VIRHE', getState()) + ' ' + oidHenkilo;
-        }
         dispatch(
             addGlobalNotification({
                 key: 'FETCH_DUPLICATES_FAIL',
                 type: NOTIFICATIONTYPES.ERROR,
-                title: errorMessage,
+                title: localizeWithState('NOTIFICATION_DUPLIKAATIT_VIRHE', getState()) + ' ' + oidHenkilo,
                 autoClose: 10000,
             })
         );
@@ -510,12 +501,14 @@ const requestHenkiloHakemukset = (oid) => ({
     type: FETCH_HENKILO_HAKEMUKSET.REQUEST,
     oid,
 });
-const requestHenkiloHakemuksetSuccess = (hakemukset) => ({
+const requestHenkiloHakemuksetSuccess = (oid, hakemukset) => ({
     type: FETCH_HENKILO_HAKEMUKSET.SUCCESS,
+    oid,
     hakemukset,
 });
-const requestHenkiloHakemuksetFailure = () => ({
+const requestHenkiloHakemuksetFailure = (oid) => ({
     type: FETCH_HENKILO_HAKEMUKSET.FAILURE,
+    oid,
 });
 
 export const fetchHenkiloHakemukset = (oid: string) => async (dispatch, getState) => {
@@ -523,25 +516,14 @@ export const fetchHenkiloHakemukset = (oid: string) => async (dispatch, getState
     const url = urls.url('oppijanumerorekisteri-service.henkilo.hakemukset', oid);
     try {
         const hakemukset = await http.get(url);
-        dispatch(requestHenkiloHakemuksetSuccess(hakemukset));
+        dispatch(requestHenkiloHakemuksetSuccess(oid, hakemukset));
     } catch (error) {
-        dispatch(requestHenkiloHakemuksetFailure());
-
-        let errorMessage = localizeWithState('NOTIFICATION_HENKILO_HAKEMUKSET_VIRHE', getState()) + ' ' + oid;
-        if (
-            error.message.startsWith('Failed to read response from ataru') ||
-            error.message.startsWith('Failed to fetch applications from ataru')
-        ) {
-            errorMessage = localizeWithState('NOTIFICATION_HENKILO_HAKEMUKSET_ATARU_VIRHE', getState()) + ' ' + oid;
-        } else if (error.message.startsWith('Failed fetching hakemuksetDto for henkilos')) {
-            errorMessage = localizeWithState('NOTIFICATION_HENKILO_HAKEMUKSET_HAKUAPP_VIRHE', getState()) + ' ' + oid;
-        }
-
+        dispatch(requestHenkiloHakemuksetFailure(oid));
         dispatch(
             addGlobalNotification({
                 key: 'HENKILOHAKEMUKSET_FAILURE',
                 type: NOTIFICATIONTYPES.ERROR,
-                title: errorMessage,
+                title: localizeWithState('NOTIFICATION_HENKILO_HAKEMUKSET_VIRHE', getState()) + ' ' + oid,
                 autoClose: 10000,
             })
         );

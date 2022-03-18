@@ -23,7 +23,8 @@ class OppijaCreateDuplikaatit extends React.Component<OppijaCreateDuplikaatitPro
             henkilo: {
                 ...this.props.oppija,
             },
-            duplicates: this.props.duplikaatit,
+            duplicates: this.props.duplikaatit.map((d) => ({ ...d, hakemukset: [] })),
+            hakemukset: [],
         };
         const notifications = [];
 
