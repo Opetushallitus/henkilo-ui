@@ -12,7 +12,7 @@
         "history": "3.3.0",
         "isomorphic-fetch": "3.0.0",
         "joi": "^17.4.0",
-        "moment": "2.24.0",
+        "moment": "2.29.4",
         "normalizr": "3.0.0",
         "oph-urls-js": "github:Opetushallitus/oph-urls-js#master",
         "oph-virkailija-style-guide": "github:Opetushallitus/virkailija-styles#master",
