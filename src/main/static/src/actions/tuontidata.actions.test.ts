@@ -1,5 +1,5 @@
-import { fetchTuontiKooste } from './tuontikooste.actions';
-import { FETCH_TUONTIKOOSTE_REQUEST, FETCH_TUONTIKOOSTE_SUCCESS, FETCH_TUONTIKOOSTE_FAILURE } from './actiontypes';
+import { fetchTuontidata } from './tuontidata.actions';
+import { FETCH_TUONTIDATA_REQUEST, FETCH_TUONTIDATA_SUCCESS, FETCH_TUONTIDATA_FAILURE } from './actiontypes';
 import { http } from '../http';
 
 jest.mock('oph-urls-js');
@@ -14,9 +14,9 @@ beforeEach(() => {
     jest.resetAllMocks();
 });
 
-describe('Tuontikooste action creator', () => {
+describe('Tuontidata action creator', () => {
     const dispatch = jest.fn();
-    const actionCreator = fetchTuontiKooste({ page: 1, pageSize: 1, sort: 'ASC', field: 'id' });
+    const actionCreator = fetchTuontidata(1);
 
     test('Fetch data', async () => {
         http.get = jest.fn().mockResolvedValue([]);
@@ -25,8 +25,8 @@ describe('Tuontikooste action creator', () => {
 
         expect(http.get).toHaveBeenCalledTimes(1);
         expect(dispatch.mock.calls.length).toBe(2);
-        expect(dispatch.mock.calls[0][0].type).toBe(FETCH_TUONTIKOOSTE_REQUEST);
-        expect(dispatch.mock.calls[1][0].type).toBe(FETCH_TUONTIKOOSTE_SUCCESS);
+        expect(dispatch.mock.calls[0][0].type).toBe(FETCH_TUONTIDATA_REQUEST);
+        expect(dispatch.mock.calls[1][0].type).toBe(FETCH_TUONTIDATA_SUCCESS);
     });
 
     test('Handle errors', () => {
@@ -38,8 +38,8 @@ describe('Tuontikooste action creator', () => {
 
         expect(http.get).toHaveBeenCalledTimes(1);
         expect(dispatch.mock.calls.length).toBe(3);
-        expect(dispatch.mock.calls[0][0].type).toBe(FETCH_TUONTIKOOSTE_REQUEST);
-        expect(dispatch.mock.calls[1][0].type).toBe(FETCH_TUONTIKOOSTE_FAILURE);
+        expect(dispatch.mock.calls[0][0].type).toBe(FETCH_TUONTIDATA_REQUEST);
+        expect(dispatch.mock.calls[1][0].type).toBe(FETCH_TUONTIDATA_FAILURE);
         expect(dispatch.mock.calls[2][0]).toEqual(expect.any(Function));
     });
 });
