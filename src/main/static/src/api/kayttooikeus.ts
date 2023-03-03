@@ -21,6 +21,9 @@ export const kayttooikeusApi = createApi({
         getMfaSetup: builder.query<MfaSetupResponse, void>({
             query: () => 'mfasetup/gauth/setup',
         }),
+        getTestSuomiFi: builder.query<any, void>({
+            query: () => 'mfasetup/gauth/testsuomifi',
+        }),
         postMfaEnable: builder.mutation<MfaEnableResponse, MfaEnableRequest>({
             query: (token) => ({
                 url: 'mfasetup/gauth/enable',
@@ -31,4 +34,4 @@ export const kayttooikeusApi = createApi({
     }),
 });
 
-export const { useGetMfaSetupQuery, usePostMfaEnableMutation } = kayttooikeusApi;
+export const { useGetMfaSetupQuery, useGetTestSuomiFiQuery, usePostMfaEnableMutation } = kayttooikeusApi;

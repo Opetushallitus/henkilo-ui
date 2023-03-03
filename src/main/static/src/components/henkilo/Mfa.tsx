@@ -2,7 +2,7 @@ import React, { ReactNode, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PinInput from 'react-pin-input';
 
-import { useGetMfaSetupQuery, usePostMfaEnableMutation } from '../../api/kayttooikeus';
+import { useGetMfaSetupQuery, useGetTestSuomiFiQuery, usePostMfaEnableMutation } from '../../api/kayttooikeus';
 import { setMfaProvider } from '../../actions/omattiedot.actions';
 import appleStore from '../../img/apple_store.svg';
 import googlePlay from '../../img/google_play.svg';
@@ -80,8 +80,10 @@ type MfaUnregisteredProps = {
 };
 
 const MfaUnregistered = ({ setMfaSetup, L }: MfaUnregisteredProps) => {
+    const { data } = useGetTestSuomiFiQuery();
     return (
         <div>
+            <div>{data && JSON.stringify(data)}</div>
             <div className={styles.infoBody}>
                 <div className={styles.icon}>
                     <PhoneIcon />
