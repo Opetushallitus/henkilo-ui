@@ -20,7 +20,7 @@ const urlConfig = {
     'kayttooikeus-service.henkilo.byOid': 'kayttooikeus-service/henkilo/$1',
     'kayttooikeus-service.henkilo.organisaatios': 'kayttooikeus-service/henkilo/$1/organisaatio',
     'kayttooikeus-service.henkilo.organisaatiohenkilos': 'kayttooikeus-service/henkilo/$1/organisaatiohenkilo',
-    'kayttooikeus-service.henkilo.hakatunnus': 'kayttooikeus-service/henkilo/$1/hakatunnus',
+    'kayttooikeus-service.henkilo.idp': 'kayttooikeus-service/henkilo/$1/idp/$2',
     'kayttooikeus-service.henkilo.sahkopostitunniste': 'kayttooikeus-service/henkilo/$1/sahkopostitunniste',
     'kayttooikeus-service.henkilo.henkilohaku': 'kayttooikeus-service/henkilo/henkilohaku',
     'kayttooikeus-service.henkilo.anomusilmoitus': 'kayttooikeus-service/henkilo/$1/anomusilmoitus',

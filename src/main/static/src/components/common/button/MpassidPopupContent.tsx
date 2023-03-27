@@ -22,47 +22,42 @@ type DispatchProps = {
 type Props = OwnProps & DispatchProps;
 
 type State = {
-    hakatunnisteet: string[];
+    tunnisteet: string[];
     newTunnisteValue: string;
 };
 
-class HakatunnistePopupContent extends React.Component<Props, State> {
+class MpassidPopupContent extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            hakatunnisteet: [],
+            tunnisteet: [],
             newTunnisteValue: '',
         };
     }
 
     async componentDidMount() {
-        const tunnisteet = await this.getHakatunnisteet();
-        this.setState({
-            hakatunnisteet: tunnisteet,
-        });
+        const tunnisteet = await this.getTunnisteet();
+        this.setState({ tunnisteet });
     }
 
     render() {
         return (
             <div className="hakapopupcontent">
+                <p>{this.props.L['MPASSID_TUNNISTE_INFOTEKSTI'] || 'MPASSID_TUNNISTE_INFOTEKSTI'}</p>
                 <ul>
-                    {this.state.hakatunnisteet.length > 0 ? (
-                        this.state.hakatunnisteet.map((
-                            hakatunniste // eslint-disable-next-line jsx-a11y/anchor-is-valid
-                        ) => (
-                            <li className="tag" key={hakatunniste}>
-                                <span>{hakatunniste}</span>{' '}
-                                <a
-                                    className="remove"
-                                    href="#poista"
-                                    onClick={() => this.removeHakatunniste(hakatunniste)}
-                                >
+                    {this.state.tunnisteet.length > 0 ? (
+                        this.state.tunnisteet.map((tunniste) => (
+                            <li className="tag" key={tunniste}>
+                                <span>{tunniste}</span>{' '}
+                                <a className="remove" href="#poista" onClick={() => this.remoteTunniste(tunniste)}>
                                     {this.props.L['POISTA']}
                                 </a>
                             </li>
                         ))
                     ) : (
-                        <span className="oph-h4 oph-strong hakapopup">{this.props.L['EI_HAKATUNNUKSIA']}</span>
+                        <span className="oph-h4 oph-strong hakapopup">
+                            {this.props.L['MPASSID_EI_TUNNISTEITA'] || 'MPASSID_EI_TUNNISTEITA'}
+                        </span>
                     )}
                 </ul>
                 <div className="oph-field oph-field-is-required">
@@ -74,18 +69,18 @@ class HakatunnistePopupContent extends React.Component<Props, State> {
                         value={this.state.newTunnisteValue}
                         onChange={this.handleChange.bind(this)}
                         onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) =>
-                            e.key === 'Enter' ? this.addHakatunniste() : null
+                            e.key === 'Enter' ? this.addTunniste() : null
                         }
                     />
-                    {this.state.hakatunnisteet.includes(this.state.newTunnisteValue) ? (
+                    {this.state.tunnisteet.includes(this.state.newTunnisteValue) ? (
                         <div className="oph-field-text oph-error">
-                            {this.props.L['HAKATUNNISTEET_VIRHE_OLEMASSAOLEVA']}
+                            {this.props.L['MPASSID_VIRHE_OLEMASSAOLEVA'] || 'MPASSID_VIRHE_OLEMASSAOLEVA'}
                         </div>
                     ) : null}
                     <button
                         className="save oph-button oph-button-primary"
-                        disabled={this.state.hakatunnisteet.includes(this.state.newTunnisteValue)}
-                        onClick={() => this.addHakatunniste()}
+                        disabled={this.state.tunnisteet.includes(this.state.newTunnisteValue)}
+                        onClick={() => this.addTunniste()}
                     >
                         {this.props.L['TALLENNA_TUNNUS']}
                     </button>
@@ -98,37 +93,40 @@ class HakatunnistePopupContent extends React.Component<Props, State> {
         this.setState({ newTunnisteValue: event.target.value });
     }
 
-    addHakatunniste() {
+    addTunniste() {
         if (this.state.newTunnisteValue.length > 0) {
-            const tunnisteet = this.state.hakatunnisteet.slice(0);
+            const tunnisteet = this.state.tunnisteet.slice(0);
             tunnisteet.push(this.state.newTunnisteValue);
-            this.saveHakatunnisteet(tunnisteet, this.state.newTunnisteValue);
+            this.saveTunnisteet(tunnisteet, this.state.newTunnisteValue);
             this.setState({ newTunnisteValue: '' });
         }
     }
 
-    async removeHakatunniste(tunniste: string) {
-        const filteredTunnisteet = reject((hakatunniste) => hakatunniste === tunniste)(this.state.hakatunnisteet);
-        await this.saveHakatunnisteet(filteredTunnisteet, tunniste);
+    async remoteTunniste(tunniste: string) {
+        const filteredTunnisteet = reject((_) => _ === tunniste)(this.state.tunnisteet);
+        await this.saveTunnisteet(filteredTunnisteet, tunniste);
     }
 
-    async getHakatunnisteet() {
-        const url = urls.url('kayttooikeus-service.henkilo.idp', this.props.henkiloOid, 'haka');
-        const hakatunnisteet = await http.get<string[]>(url);
-        return hakatunnisteet;
+    async getTunnisteet() {
+        const url = urls.url('kayttooikeus-service.henkilo.idp', this.props.henkiloOid, 'mpassid');
+        return await http.get<string[]>(url);
     }
 
-    async saveHakatunnisteet(newHakatunnisteet: Array<string>, newTunnisteValue: string) {
-        const url = urls.url('kayttooikeus-service.henkilo.idp', this.props.henkiloOid, 'haka');
+    async saveTunnisteet(newTunnisteet: Array<string>, newTunnisteValue: string) {
+        const url = urls.url('kayttooikeus-service.henkilo.idp', this.props.henkiloOid, 'mpassid');
         try {
-            const hakatunnisteet = await http.put<string[]>(url, newHakatunnisteet);
-            this.setState({ hakatunnisteet });
+            const tunnisteet = await http.put<string[]>(url, newTunnisteet);
+            this.setState({ tunnisteet });
         } catch (error) {
             if (error.errorType === 'ValidationException' && error.message.indexOf('ovat jo käytössä') !== -1) {
                 this.props.addGlobalNotification({
-                    key: 'DUPLICATE_HAKA_KEY',
+                    key: 'MPASSID_DUPLIKAATTI_TUNNISTE',
                     type: NOTIFICATIONTYPES.ERROR,
-                    title: `${this.props.L['HAKATUNNISTEET_VIRHE_KAYTOSSA_ALKU']} (${newTunnisteValue}) ${this.props.L['HAKATUNNISTEET_VIRHE_KAYTOSSA_LOPPU']}`,
+                    title: `${
+                        this.props.L['MPASSID_TUNNISTE_KAYTOSSA_ALKU'] || 'MPASSID_TUNNISTE_KAYTOSSA_ALKU'
+                    } (${newTunnisteValue}) ${
+                        this.props.L['MPASSID_TUNNISTE_KAYTOSSA_LOPPU'] || 'MPASSID_TUNNISTE_KAYTOSSA_LOPPU'
+                    }`,
                     autoClose: 5000,
                 });
             }
@@ -139,4 +137,4 @@ class HakatunnistePopupContent extends React.Component<Props, State> {
 
 export default connect<{}, DispatchProps, OwnProps, RootState>(undefined, {
     addGlobalNotification,
-})(HakatunnistePopupContent);
+})(MpassidPopupContent);

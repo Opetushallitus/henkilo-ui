@@ -25,6 +25,7 @@ import LinkitetytHenkilot from '../labelvalues/LinkitetytHenkilot';
 import MasterHenkilo from '../labelvalues/MasterHenkilo';
 import PuraHetuttomanYksilointiButton from '../buttons/PuraHetuttomanYksilointi';
 import HakaButton from '../buttons/HakaButton';
+import MpassidButton from '../buttons/MpassidButton';
 import VtjOverrideButton from '../buttons/VtjOverrideButton';
 import PasswordButton from '../buttons/PasswordButton';
 import AktivoiButton from '../buttons/AktivoiButton';
@@ -162,6 +163,13 @@ class AdminUserContent extends React.Component<Props> {
                 disabled={duplicate || passivoitu}
             />
         );
+        const mpassidButton = (
+            <MpassidButton
+                oidHenkilo={this.props.oidHenkilo}
+                styles={buttonPopupStyles}
+                disabled={duplicate || passivoitu}
+            />
+        );
         const sahkopostiTunnisteButton = isOnrRekisterinpitaja ? (
             <SahkopostitunnisteButton
                 oidHenkilo={this.props.oidHenkilo}
@@ -185,6 +193,7 @@ class AdminUserContent extends React.Component<Props> {
             poistaKayttajatunnusBtn,
             aktivoiButton,
             hakaButton,
+            mpassidButton,
             sahkopostiTunnisteButton,
             vtjOverrideButton,
             passwordButton,
