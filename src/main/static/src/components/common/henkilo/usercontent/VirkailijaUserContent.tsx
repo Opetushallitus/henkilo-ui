@@ -18,7 +18,6 @@ import Kayttajanimi from '../labelvalues/Kayttajanimi';
 import LinkitetytHenkilot from '../labelvalues/LinkitetytHenkilot';
 import MasterHenkilo from '../labelvalues/MasterHenkilo';
 import HakaButton from '../buttons/HakaButton';
-import MpassidButton from '../buttons/MpassidButton';
 import PasswordButton from '../buttons/PasswordButton';
 import { hasAnyPalveluRooli } from '../../../../utilities/palvelurooli.util';
 import { OmattiedotState } from '../../../../reducers/omattiedot.reducer';
@@ -119,18 +118,6 @@ class VirkailijaUserContent extends React.Component<Props> {
                 disabled={duplicate || passivoitu}
             />
         );
-        const mpassidButton = (
-            <MpassidButton
-                oidHenkilo={this.props.oidHenkilo}
-                styles={{
-                    left: '0px',
-                    top: '3rem',
-                    width: '15rem',
-                    padding: '30px',
-                }}
-                disabled={duplicate || passivoitu}
-            />
-        );
         const passwordButton = (
             <PasswordButton
                 oidHenkilo={this.props.oidHenkilo}
@@ -139,7 +126,7 @@ class VirkailijaUserContent extends React.Component<Props> {
             />
         );
 
-        return [editButton, hakaButton, mpassidButton, passwordButton];
+        return [editButton, hakaButton, passwordButton];
     };
 }
 
