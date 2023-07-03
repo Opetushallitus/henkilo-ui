@@ -5,7 +5,7 @@ import rootReducer from './reducers';
 import { kayttooikeusApi } from './api/kayttooikeus';
 import { oppijanumerorekisteriApi } from './api/oppijanumerorekisteri';
 
-const isDev = process.env.NODE_ENV !== 'production';
+const isDev = import.meta.env.DEV;
 const isClient = typeof window !== 'undefined';
 
 export const store = configureStore({

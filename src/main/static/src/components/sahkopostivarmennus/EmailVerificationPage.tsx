@@ -129,7 +129,7 @@ export class EmailVerificationPage extends React.Component<Props, State> {
     }
 
     emailChangeEvent(yhteystiedotRyhmaIndex: number, yhteystietoIndex: number, value: string): void {
-        const yhteystiedotRyhma: Array<YhteystietoRyhma> = this.state.henkilo.yhteystiedotRyhma;
+        const yhteystiedotRyhma = this.state.henkilo.yhteystiedotRyhma;
         yhteystiedotRyhma[yhteystiedotRyhmaIndex].yhteystieto[yhteystietoIndex].yhteystietoArvo = value;
         const validForm = validateYhteystiedotRyhmaEmails(yhteystiedotRyhma);
         this.setState({

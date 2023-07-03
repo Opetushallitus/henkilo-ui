@@ -43,13 +43,11 @@ const config: PlaywrightTestConfig = {
     use: {
         /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
         actionTimeout: 0,
-        /* Base URL to use in actions like `await page.goto('/')`. */
-        // baseURL: 'http://localhost:3000',
         headless: !!process.env.CI,
 
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: process.env.CI ? 'on-first-retry' : 'on',
-        baseURL: 'http://localhost:3000/henkilo-ui/',
+        baseURL: 'http://localhost:3000',
     },
 
     /* Configure projects for major browsers */
@@ -71,14 +69,12 @@ const config: PlaywrightTestConfig = {
             command: 'npm start',
             port: 3000,
             timeout: 30 * 1000,
-            reuseExistingServer: true,
         },
         {
             cwd: 'mock-api',
             command: 'npm run mock-api',
             port: 8080,
             timeout: 10 * 1000,
-            reuseExistingServer: true,
         },
     ],
 };
