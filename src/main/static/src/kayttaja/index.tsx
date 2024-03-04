@@ -17,6 +17,7 @@ import 'oph-virkailija-style-guide/oph-styles.css';
 import '../index.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../flex.css';
+import '../fontawesome/css/font-awesome.min.css';
 
 urls.addProperties(frontUrls);
 urls.addCallerId(PropertySingleton.getState().opintopolkuCallerId);
