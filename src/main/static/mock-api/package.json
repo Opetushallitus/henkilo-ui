@@ -10,7 +10,7 @@
         "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ../.prettierrc"
     },
     "dependencies": {
-        "connect-api-mocker": "^1.10.0",
+        "connect-api-mocker": "^1.11.0",
         "cors": "^2.8.5",
         "express": "^4.17.1",
         "prettier": "^2.4.1"
